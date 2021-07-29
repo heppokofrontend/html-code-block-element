@@ -1,6 +1,6 @@
 {
   "name": "html-code-block-element",
-  "description": "A simple code block.",
+  "description": "This is a code block generator with syntax highlighting and copy button.",
   "version": "0.0.0",
   "author": "heppokofrontend",
   "bugs": {
