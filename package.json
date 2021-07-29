@@ -1,0 +1,55 @@
+{
+  "name": "html-code-block-element",
+  "description": "A simple code block.",
+  "version": "0.0.0",
+  "author": "heppokofrontend",
+  "bugs": {
+    "url": "https://github.com/heppokofrontend/html-code-block-element/issues"
+  },
+  "dependencies": {
+    "highlight.js": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.35",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.4",
+    "ts-loader": "^8.0.18",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3",
+    "webpack": "^5.27.0",
+    "webpack-cli": "^4.5.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "engines": {
+    "node": "^14.16.0"
+  },
+  "files": [
+    "dist",
+    "lib"
+  ],
+  "homepage": "https://github.com/heppokofrontend/html-code-block-element#readme",
+  "keywords": [
+    "DocumentFragment",
+    "custom-elements",
+    "web-components"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heppokofrontend/code-block-element.git"
+  },
+  "scripts": {
+    "build": "npm run build:ts && npm run build:webpack",
+    "build:ts": "tsc",
+    "build:webpack": "webpack --mode=production",
+    "prepublishOnly": "npm run build",
+    "prestart": "git config commit.template .gitmessage",
+    "start": "tsc -w",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch --caverage"
+  }
+}
