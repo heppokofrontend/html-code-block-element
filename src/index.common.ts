@@ -1,4 +1,4 @@
-import CustomElementConstructor from './HTMLCodeBlockElement';
+import CustomElementConstructor from './class/HTMLCodeBlockElement';
 
 customElements.define('code-block', CustomElementConstructor);
 
