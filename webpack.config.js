@@ -1,4 +1,6 @@
 const webpack = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
+const {LicenseWebpackPlugin} = require('license-webpack-plugin');
 const path = require('path');
 const banner = (({name, version, author, license}) => {
 return `
@@ -12,22 +14,28 @@ return `
 
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: {
+    'html-code-block-element.core.min': './src/index.core.ts',
+    'html-code-block-element.common.min': './src/index.common.ts',
+    'html-code-block-element.all.min': './src/index.all.ts',
+  },
   output: {
     path: path.join(__dirname, 'lib'),
-    filename: 'index.min.js',
     library: 'HTMLCodeBlockElement',
     libraryExport: 'HTMLCodeBlockElement',
     libraryTarget: 'window',
   },
   resolve: {
-    extensions: ['.ts'],
+    extensions: ['.ts', '.js'],
   },
   module: {
     rules: [{
-      test: /\.ts$/,
-      loader: 'ts-loader',
+      test: /\.(ts|js)$/,
+      loader: 'babel-loader',
     }]
+  },
+  devServer: {
+    contentBase: __dirname,
   },
   plugins: [
     new webpack.BannerPlugin({
@@ -35,5 +43,16 @@ module.exports = {
       raw: true,
       entryOnly: true,
     }),
+    new LicenseWebpackPlugin()
   ],
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false,
+        terserOptions: {
+          keep_classnames: true,
+        }
+      })
+    ],
+  },
 };

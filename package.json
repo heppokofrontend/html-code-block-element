@@ -10,15 +10,21 @@
     "highlight.js": "^11.1.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
+    "@babel/preset-typescript": "^7.14.5",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.35",
+    "babel-loader": "^8.2.2",
     "jest": "^26.6.3",
+    "license-webpack-plugin": "^2.3.20",
+    "terser-webpack-plugin": "^5.1.4",
     "ts-jest": "^26.5.4",
-    "ts-loader": "^8.0.18",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3",
     "webpack": "^5.27.0",
-    "webpack-cli": "^4.5.0"
+    "webpack-cli": "^4.5.0",
+    "webpack-dev-server": "^3.11.2"
   },
   "directories": {
     "test": "test"
@@ -41,18 +47,16 @@
     "web-components"
   ],
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "lib/html-code-block-element.common.min.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/heppokofrontend/code-block-element.git"
   },
   "scripts": {
-    "build": "npm run build:ts && npm run build:webpack",
-    "build:ts": "tsc",
-    "build:webpack": "webpack --mode=production",
+    "build": "webpack --mode=production",
     "prepublishOnly": "npm run build",
     "prestart": "git config commit.template .gitmessage",
-    "start": "tsc -w",
+    "start": "webpack serve --mode=production",
     "test": "jest --coverage",
     "test:watch": "jest --watch --caverage"
   }

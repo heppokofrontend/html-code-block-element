@@ -8,12 +8,10 @@
     "pretty": true,
     "newLine": "lf",
     "outDir": "dist",
+    "useDefineForClassFields": true,
     "types": [
       "jest",
       "node"
     ]
   },
-  "include": [
-    "./src/**/*.ts"
-  ]
 }
