@@ -35,6 +35,8 @@
     "code-block",
     "code-blocks",
     "custom-elements",
+    "highlight",
+    "highlight.js",
     "syntax-highlighting",
     "web-components"
   ],
