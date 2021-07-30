@@ -1,4 +1,4 @@
-import hljs from 'highlight.js/lib/common';
+import hljs from 'highlight.js/lib/core';
 import CustomElementConstructor from './class/HTMLCodeBlockElement';
 import './utils/add-style';
 
