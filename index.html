@@ -67,31 +67,43 @@
 
 <p>Let's run these JS on this page.</p>
 
-<code-block language="js">
+<code-block language="js" controls>
 <textarea>{
   const value = `<div>
-    <h2>Hello world</h2>
+  <h2>Hello world</h2>
 
-    <p>This is sample markup.</p>
-  </div>`
+  <p class="example">This is sample markup.</p>
+</div>`;
 
   cb.value = value;
   cb.language = 'html';
 }</textarea>
 </code-block>
 
-<code-block language="js">
+<code-block language="js" controls>
 <textarea>{
   const value = `{
-    "items": [
-      100,
-      null,
-      "this is sample json"
-    ]
-  }`
+  "items": [
+    100,
+    null,
+    "This is sample json"
+  ]
+}`;
 
   cb.value = value;
   cb.language = 'json';
+}</textarea>
+</code-block>
+
+<code-block language="js" controls>
+<textarea>{
+  const value = `body {
+  /* This is sample css */
+  font-size: 100px;
+}`;
+
+  cb.value = value;
+  cb.language = 'css';
 }</textarea>
 </code-block>
 
