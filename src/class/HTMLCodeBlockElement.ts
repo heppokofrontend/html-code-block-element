@@ -74,6 +74,19 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   #language: string = '';
   /** Actual value of the accessor `controls` */
   #controls: boolean = false;
+  /** Click event handler of copy button */
+  #onClickButton = (() => {
+    let key = -1;
+
+    return () => {
+      clearTimeout(key);
+
+      this.#copyButton.textContent = 'Copied!';
+      key = window.setTimeout(() => {
+        this.#copyButton.textContent = 'Copy';
+      }, 1500);
+    };
+  })();
   /** Outputs the resulting syntax-highlighted markup to the DOM. */
   #render = function (this: HTMLCodeBlockElement) {
     if (!this.parentNode) {
@@ -156,7 +169,6 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   }
 
   set controls(value: boolean) {
-    // TODO: コピーボタンの表示切り替え
     this.#controls = value;
 
     if (this.#controls) {
@@ -223,8 +235,10 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     const copyButton = (() => {
       const button = document.createElement('button');
 
+      button.type = 'button';
       button.slot = 'copy-button';
       button.textContent = 'Copy';
+      button.addEventListener('click', this.#onClickButton);
 
       return button;
     })();
