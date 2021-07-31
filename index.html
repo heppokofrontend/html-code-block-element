@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTMLCodeBlockElement</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/vs.min.css">
+  <style>
+    body {
+      padding: 20px 20px 50vh;
+      margin: 0 auto;
+      max-width: 640px;
+      font-family: sans-serif;
+      background: #f1f1f1;
+    }
+
+    h2:not(:first-of-type) {
+      margin-top: 100px;
+    }
+  </style>
+  <!-- <script src="./lib/html-code-block-element.core.min.js" defer></script> -->
+  <script src="./lib/html-code-block-element.common.min.js" defer></script>
+  <!-- <script src="./lib/html-code-block-element.all.min.js" defer></script> -->
+</head>
+<body>
+<main>
+<h1>HTMLCodeBlockElement</h1>
+
+<h2>With escaped text</h2>
+
+<h3>Source</h3>
+
+<code-block language="html">
+<textarea><code-block language="html">
+&lt;script&gt;console.log(true);&lt;/script&gt;
+</code-block></textarea>
+</code-block>
+
+<h3>Result</h3>
+
+<code-block language="html">
+&lt;script&gt;console.log(true);&lt;/script&gt;
+</code-block>
+
+<h2>With the textarea element</h2>
+
+<h3>Source</h3>
+
+<p><small><b>Note: </b>The textarea element cannot be included in the content of the textarea element. If you want to include it, please use HTML Entity for the tag.</small></p>
+
+<code-block language="html">
+<textarea><code-block language="html">
+<textarea><script>console.log(true);</script>&lt;/textarea>
+</code-block></textarea>
+</code-block>
+
+<h3>Result</h3>
+
+<code-block language="html">
+<textarea><script>console.log(true);</script></textarea>
+</code-block>
+
+<h2>PlayGround</h2>
+
+<code-block language="js" id="cb">// this is placeholder</code-block>
+
+<p>Let's run these JS on this page.</p>
+
+<code-block language="js">
+<textarea>{
+  const value = `<div>
+    <h2>Hello world</h2>
+
+    <p>This is sample markup.</p>
+  </div>`
+
+  cb.value = value;
+  cb.language = 'html';
+}</textarea>
+</code-block>
+
+<code-block language="js">
+<textarea>{
+  const value = `{
+    "items": [
+      100,
+      null,
+      "this is sample json"
+    ]
+  }`
+
+  cb.value = value;
+  cb.language = 'json';
+}</textarea>
+</code-block>
+
+</main>
+<script>
+window.cb = document.getElementById('cb');
+</script>
+</body>
+</html>
