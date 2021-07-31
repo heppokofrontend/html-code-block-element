@@ -53,7 +53,11 @@ var _codeWrap = /*#__PURE__*/new WeakMap();
 
 var _value = /*#__PURE__*/new WeakMap();
 
+var _label = /*#__PURE__*/new WeakMap();
+
 var _language = /*#__PURE__*/new WeakMap();
+
+var _controls = /*#__PURE__*/new WeakMap();
 
 var _render = /*#__PURE__*/new WeakSet();
 
@@ -97,9 +101,19 @@ var HTMLCodeBlockElement = /*#__PURE__*/function (_HTMLElement) {
       value: ''
     });
 
+    _label.set(_assertThisInitialized(_this), {
+      writable: true,
+      value: ''
+    });
+
     _language.set(_assertThisInitialized(_this), {
       writable: true,
       value: ''
+    });
+
+    _controls.set(_assertThisInitialized(_this), {
+      writable: true,
+      value: false
     });
 
     var mkslot = function mkslot(name) {
@@ -108,7 +122,7 @@ var HTMLCodeBlockElement = /*#__PURE__*/function (_HTMLElement) {
       return slot;
     };
 
-    var slots = [mkslot('code')];
+    var slots = [mkslot('label'), mkslot('copy-button'), mkslot('code')];
     var pre = document.createElement('pre');
     var code = document.createElement('code');
     code.tabIndex = 0;
@@ -119,7 +133,11 @@ var HTMLCodeBlockElement = /*#__PURE__*/function (_HTMLElement) {
 
     _classPrivateFieldSet(_assertThisInitialized(_this), _value, (_this.textContent || '').replace(/^\n/, ''));
 
+    _classPrivateFieldSet(_assertThisInitialized(_this), _label, _this.getAttribute('label') || '');
+
     _classPrivateFieldSet(_assertThisInitialized(_this), _language, _this.getAttribute('language') || '');
+
+    _classPrivateFieldSet(_assertThisInitialized(_this), _controls, _this.getAttribute('controls') !== null);
 
     _classPrivateFieldSet(_assertThisInitialized(_this), _shadowRoot, _this.attachShadow({
       mode: 'closed'
@@ -147,6 +165,28 @@ var HTMLCodeBlockElement = /*#__PURE__*/function (_HTMLElement) {
       _classPrivateMethodGet(this, _render, _render2).call(this);
     }
     /**
+     * The name of code block
+     * @returns - The value of the label attribute
+     */
+
+  }, {
+    key: "label",
+    get: function get() {
+      return _classPrivateFieldGet(this, _label);
+    },
+    set: function set(name) {
+      // TODO: Accessiblity Treeにアクセシブルネームを提供する
+      _classPrivateFieldSet(this, _label, name || '');
+
+      if (_classPrivateFieldGet(this, _label)) {
+        this.setAttribute('label', name);
+      } else {
+        this.removeAttribute('label');
+      }
+
+      _classPrivateMethodGet(this, _render, _render2).call(this);
+    }
+    /**
      * Language Mode
      * @returns - The value of the language attribute
      */
@@ -167,6 +207,28 @@ var HTMLCodeBlockElement = /*#__PURE__*/function (_HTMLElement) {
 
       _classPrivateMethodGet(this, _render, _render2).call(this);
     }
+    /**
+     * Flag to display the UI
+     * @returns - With or without controls attribute
+     * */
+
+  }, {
+    key: "controls",
+    get: function get() {
+      return _classPrivateFieldGet(this, _controls);
+    },
+    set: function set(flag) {
+      // TODO: コピーボタン、ラベルの表示切り替え
+      _classPrivateFieldSet(this, _controls, flag);
+
+      if (_classPrivateFieldGet(this, _controls)) {
+        this.setAttribute('controls', '');
+      } else {
+        this.removeAttribute('controls');
+      }
+
+      _classPrivateMethodGet(this, _render, _render2).call(this);
+    }
   }, {
     key: "attributeChangedCallback",
     value: function attributeChangedCallback(attrName, oldValue, newValue) {
@@ -177,9 +239,15 @@ var HTMLCodeBlockElement = /*#__PURE__*/function (_HTMLElement) {
 
 
       switch (attrName) {
+        // string
+        case 'label':
         case 'language':
           this[attrName] = newValue || '';
           break;
+        // boolean
+
+        case 'controls':
+          this[attrName] = typeof newValue === 'string';
       }
     }
   }, {
@@ -220,8 +288,7 @@ var HTMLCodeBlockElement = /*#__PURE__*/function (_HTMLElement) {
   }, {
     key: "observedAttributes",
     get: function get() {
-      return ['language' // 'controls',
-      ];
+      return ['label', 'language', 'controls'];
     }
   }]);
 
