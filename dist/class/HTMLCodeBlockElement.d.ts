@@ -14,7 +14,9 @@ export default class HTMLCodeBlockElement extends HTMLElement {
      * @param options - Option for library of highlight
      * @returns - Object of the highlight result
      */
-    static highlight(src: string, options: HighlightOptions): import("highlight.js").HighlightResult;
+    static highlight(src: string, options: HighlightOptions): {
+        value: string;
+    };
     /** @returns - Syntax Highlighted Source Code */
     get value(): string;
     set value(src: string);
