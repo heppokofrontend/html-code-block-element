@@ -39,14 +39,17 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     return endgine.highlightAuto(src);
   }
 
-
   #shadowRoot: ShadowRoot;
   #codeBlock: HTMLElement;
   #codeWrap: HTMLPreElement;
   /** Actual value of the accessor `value` */
   #value: string = '';
+  /** Actual value of the accessor `label` */
+  #label: string = '';
   /** Actual value of the accessor `language` */
   #language: string = '';
+  /** Actual value of the accessor `controls` */
+  #controls: boolean = false;
 
   /** Outputs the resulting syntax-highlighted markup to the DOM. */
   #render() {
@@ -77,6 +80,27 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   }
 
   /**
+   * The name of code block
+   * @returns - The value of the label attribute
+   */
+  get label() {
+    return this.#label;
+  }
+
+  set label(name: string) {
+    // TODO: Accessiblity Treeにアクセシブルネームを提供する
+    this.#label = name || '';
+
+    if (this.#label) {
+      this.setAttribute('label', name);
+    } else {
+      this.removeAttribute('label');
+    }
+
+    this.#render();
+  }
+
+  /**
    * Language Mode
    * @returns - The value of the language attribute
    */
@@ -96,10 +120,32 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     this.#render();
   }
 
+  /**
+   * Flag to display the UI
+   * @returns - With or without controls attribute
+   * */
+  get controls() {
+    return this.#controls;
+  }
+
+  set controls(flag: boolean) {
+    // TODO: コピーボタン、ラベルの表示切り替え
+    this.#controls = flag;
+
+    if (this.#controls) {
+      this.setAttribute('controls', '');
+    } else {
+      this.removeAttribute('controls');
+    }
+
+    this.#render();
+  }
+
   static get observedAttributes() {
     return [
+      'label',
       'language',
-      // 'controls',
+      'controls',
     ];
   }
 
@@ -115,10 +161,16 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     // When the value of the attribute being observed changes,
     // pass value to accessors.
     switch (attrName) {
+      // string
+      case 'label':
       case 'language':
         this[attrName] = newValue || '';
 
         break;
+
+      // boolean
+      case 'controls':
+        this[attrName] = typeof newValue === 'string';
     }
   }
 
@@ -141,6 +193,8 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       return slot;
     }
     const slots = [
+      mkslot('label'),
+      mkslot('copy-button'),
       mkslot('code'),
     ];
     const pre = document.createElement('pre');
@@ -153,7 +207,9 @@ export default class HTMLCodeBlockElement extends HTMLElement {
 
     // Hard private props initialize
     this.#value = (this.textContent || '').replace(/^\n/, '');
+    this.#label = this.getAttribute('label') || '';
     this.#language = this.getAttribute('language') || '';
+    this.#controls = this.getAttribute('controls') !== null;
     this.#shadowRoot = this.attachShadow({
       mode: 'closed',
     });
