@@ -1,7 +1,7 @@
 {
   "name": "@heppokofrontend/html-code-block-element",
   "description": "Code block custom element with syntax highlighting and copy button.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "heppokofrontend",
   "bugs": {
     "url": "https://github.com/heppokofrontend/html-code-block-element/issues"
