@@ -63,6 +63,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     };
   })();
   #a11yName: HTMLElement;
+  #copyButton: HTMLButtonElement;
   #codeBlock: HTMLElement;
   #codeWrap: HTMLPreElement;
   /** Actual value of the accessor `value` */
@@ -88,9 +89,11 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     this.textContent = '';
     this.#a11yName.textContent = this.#label;
     this.#slots.name.hidden = !this.#label;
+    this.#slots.copyButton.hidden = !this.#controls;
     this.#codeBlock.textContent = '';
     this.#codeBlock.insertAdjacentHTML('afterbegin', markup);
     this.append(this.#a11yName);
+    this.append(this.#copyButton);
     this.append(this.#codeWrap);
   }
 
@@ -206,21 +209,8 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     super();
 
     /* -------------------------------------------------------------------------
-     * Setup Shadow DOM contents
+     * Setup DOM contents
      * ---------------------------------------------------------------------- */
-    /**
-     * The container of minimum text that will be read even
-     * if the accessible name (label attribute value) is omitted.
-     */
-    const a11yNamePrefix = (() => {
-      const span = document.createElement('span');
-
-      span.id = 'semantics';
-      span.hidden = true;
-      span.textContent = 'Code Block';
-
-      return span;
-    })()
     /** Container of accessible names (label attribute values). */
     const a11yName = (() => {
       const span = document.createElement('span');
@@ -229,6 +219,14 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       span.textContent = this.getAttribute('label') || '';
 
       return span;
+    })();
+    const copyButton = (() => {
+      const button = document.createElement('button');
+
+      button.slot = 'copy-button';
+      button.textContent = 'Copy';
+
+      return button;
     })();
     const codeElm = (() => {
       const code = document.createElement('code');
@@ -246,6 +244,24 @@ export default class HTMLCodeBlockElement extends HTMLElement {
 
       return pre;
     })();
+
+
+    /* -------------------------------------------------------------------------
+     * Setup Shadow DOM contents
+     * ---------------------------------------------------------------------- */
+    /**
+     * The container of minimum text that will be read even
+     * if the accessible name (label attribute value) is omitted.
+     */
+    const a11yNamePrefix = (() => {
+      const span = document.createElement('span');
+
+      span.id = 'semantics';
+      span.hidden = true;
+      span.textContent = 'Code Block';
+
+      return span;
+    })()
     const container = (() => {
       const div = document.createElement('div');
 
@@ -271,6 +287,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     this.#language = this.getAttribute('language') || '';
     this.#controls = this.getAttribute('controls') !== null;
     this.#a11yName = a11yName;
+    this.#copyButton = copyButton;
     this.#codeBlock = codeElm;
     this.#codeWrap = preElm;
   }

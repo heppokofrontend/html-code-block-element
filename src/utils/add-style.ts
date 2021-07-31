@@ -15,6 +15,7 @@ style.textContent = `
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 0;
     padding: 0 5px;
     max-width: 90%;
     color: #fff;
@@ -25,6 +26,27 @@ style.textContent = `
     background: #75758a;
     box-sizing: border-box;
   }
+
+  code-block button {
+    all: unset;
+    outline: revert;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    padding: 10px;
+    display: block;
+    font-family: inherit;
+    color: #fff;
+    opacity: 0;
+    mix-blend-mode: exclusion;
+  }
+
+  code-block:hover button,
+  code-block button:focus {
+    opacity: 1;
+  }
+
   code-block pre,
   code-block code {
     font-family: inherit;
