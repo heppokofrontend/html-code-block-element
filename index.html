@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/vs.min.css">
   <style>
     body {
-      padding: 20px 20px 50vh;
       margin: 0 auto;
       max-width: 640px;
       font-family: sans-serif;
@@ -17,6 +16,17 @@
 
     h2:not(:first-of-type) {
       margin-top: 100px;
+    }
+
+    main {
+      padding: 20px 20px 0;
+    }
+
+    footer {
+      padding: 20px;
+      margin: 50vh 0 0;
+      text-align: center;
+      border-top: 1px solid #000;
     }
   </style>
   <!-- <script src="./lib/html-code-block-element.core.min.js" defer></script> -->
@@ -108,6 +118,9 @@
 </code-block>
 
 </main>
+<footer>
+<p><a href="https://github.com/heppokofrontend/html-code-block-element">Github</a></p>
+</footer>
 <script>
 window.cb = document.getElementById('cb');
 </script>
