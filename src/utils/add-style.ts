@@ -5,16 +5,18 @@ const link = document.querySelector('head link');
 
 style.textContent = `
   code-block {
-    display: block;
     margin: 1em 0;
+    display: block;
+    font-family: Consolas, Monaco, monospace;
   }
   code-block pre {
     margin: 0;
   }
   code-block code {
-    display: block;
-    overflow-x: auto;
     padding: 1em;
+    display: block;
+    font-size: 100%;
+    overflow-x: auto;
   }
 `;
 
