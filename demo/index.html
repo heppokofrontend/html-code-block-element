@@ -34,7 +34,7 @@
       border-top: 1px solid #000;
     }
   </style>
-  <!-- <script src="./lib/html-code-block-element.common.min.js" defer></script> -->
+  <!-- <script src="../lib/html-code-block-element.common.min.js" defer></script> -->
   <!-- <script src="https://cdn.jsdelivr.net/npm/@heppokofrontend/html-code-block-element/lib/html-code-block-element.core.min.js" defer></script> -->
   <script src="https://cdn.jsdelivr.net/npm/@heppokofrontend/html-code-block-element/lib/html-code-block-element.common.min.js" defer></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/@heppokofrontend/html-code-block-element/lib/html-code-block-element.all.min.js" defer></script> -->
@@ -69,18 +69,14 @@
 
 <code-block language="html">
 <textarea><code-block language="html">
-<textarea>
-<script>console.log(true);</script>
-&lt;/textarea>
+<textarea><script>console.log(true);</script>&lt;/textarea>
 </code-block></textarea>
 </code-block>
 
 <h3>Result</h3>
 
 <code-block language="html">
-<textarea>
-<script>console.log(true);</script>
-</textarea>
+<textarea><script>console.log(true);</script></textarea>
 </code-block>
 
 <h2>Playground</h2>
@@ -96,31 +92,26 @@ cb.value = `<div>
   <h2>Hello world</h2>
 
   <p class="example">This is sample markup.</p>
-</div>`;
-</textarea>
+</div>`;</textarea>
 </code-block>
 
 <code-block language="js" label="Example: CSS" controls>
-<textarea>
-cb.language = 'css';
+<textarea>cb.language = 'css';
 cb.value = `body {
   /* This is sample css */
   font-size: 100px;
-}`;
-</textarea>
+}`;</textarea>
 </code-block>
 
 <code-block language="js" label="Example: JSON" controls>
-<textarea>
-cb.language = 'json';
+<textarea>cb.language = 'json';
 cb.value = `{
   "items": [
     100,
     null,
     "This is sample json"
   ]
-}`;
-</textarea>
+}`;</textarea>
 </code-block>
 </main>
 <footer>

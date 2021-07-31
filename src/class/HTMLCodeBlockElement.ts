@@ -123,7 +123,12 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   }
 
   set value(src: string) {
-    this.#value = src;
+    if (/\n$/.test(src)) {
+      this.#value = `${src}\n`;
+    } else {
+      this.#value = src;
+    }
+
     this.#render();
   }
 
@@ -304,7 +309,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     /* -------------------------------------------------------------------------
      * Hard private props initialize
      * ---------------------------------------------------------------------- */
-    this.#value = (this.textContent || '').replace(/^\n/, '').replace(/\n\n$/, '');
+    this.#value = (this.textContent || '').replace(/^\n/, '');
     this.#label = a11yName.textContent || '';
     this.#language = this.getAttribute('language') || '';
     this.#controls = this.getAttribute('controls') !== null;
