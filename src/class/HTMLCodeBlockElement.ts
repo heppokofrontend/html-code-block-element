@@ -77,11 +77,18 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   /** Click event handler of copy button */
   #onClickButton = (() => {
     let key = -1;
+    const textarea = document.createElement('textarea');
 
     return () => {
       clearTimeout(key);
 
+      textarea.value = this.#value.replace(/\n$/, '');
+      document.body.append(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      textarea.remove();
       this.#copyButton.textContent = 'Copied!';
+
       key = window.setTimeout(() => {
         this.#copyButton.textContent = 'Copy';
       }, 1500);
@@ -238,6 +245,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       button.type = 'button';
       button.slot = 'copy-button';
       button.textContent = 'Copy';
+      button.setAttribute('aria-live', 'polite');
       button.addEventListener('click', this.#onClickButton);
 
       return button;
@@ -296,7 +304,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     /* -------------------------------------------------------------------------
      * Hard private props initialize
      * ---------------------------------------------------------------------- */
-    this.#value = (this.textContent || '').replace(/^\n/, '').replace(/\n$/, '');
+    this.#value = (this.textContent || '').replace(/^\n/, '').replace(/\n\n$/, '');
     this.#label = a11yName.textContent || '';
     this.#language = this.getAttribute('language') || '';
     this.#controls = this.getAttribute('controls') !== null;
