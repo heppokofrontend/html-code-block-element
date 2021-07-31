@@ -1,19 +1,9 @@
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.HTMLCodeBlockElement = void 0;
-
-var _core = _interopRequireDefault(require("highlight.js/lib/core"));
-
-var _HTMLCodeBlockElement = _interopRequireDefault(require("./class/HTMLCodeBlockElement"));
-
+const core_1 = require("highlight.js/lib/core");
+const HTMLCodeBlockElement_1 = require("./class/HTMLCodeBlockElement");
 require("./utils/add-style");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-_HTMLCodeBlockElement["default"].endgine = _core["default"];
-customElements.define('code-block', _HTMLCodeBlockElement["default"]);
-var HTMLCodeBlockElement = _HTMLCodeBlockElement["default"];
-exports.HTMLCodeBlockElement = HTMLCodeBlockElement;
+HTMLCodeBlockElement_1.default.endgine = core_1.default;
+customElements.define('code-block', HTMLCodeBlockElement_1.default);
+exports.HTMLCodeBlockElement = HTMLCodeBlockElement_1.default;

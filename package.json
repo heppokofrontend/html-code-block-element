@@ -54,8 +54,10 @@
     "url": "git+https://github.com/heppokofrontend/code-block-element.git"
   },
   "scripts": {
-    "build": " babel ./src --out-dir ./dist --extensions \".ts\"",
+    "prebuild": "rm -rf dist && rm -rf lib",
+    "build": "npm run ts",
     "postbuild": "npm run bundle",
+    "ts": "tsc",
     "bundle": "webpack --mode=production",
     "prepublishOnly": "npm run build",
     "prestart": "git config commit.template .gitmessage",
