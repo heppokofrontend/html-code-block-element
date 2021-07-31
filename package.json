@@ -10,6 +10,7 @@
     "highlight.js": "^11.1.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.14.8",
     "@babel/core": "^7.14.8",
     "@babel/preset-env": "^7.14.8",
     "@babel/preset-typescript": "^7.14.5",
@@ -33,7 +34,8 @@
     "node": "^14.16.0"
   },
   "files": [
-    "dist"
+    "dist",
+    "lib"
   ],
   "homepage": "https://github.com/heppokofrontend/html-code-block-element#readme",
   "keywords": [
@@ -52,7 +54,9 @@
     "url": "git+https://github.com/heppokofrontend/code-block-element.git"
   },
   "scripts": {
-    "build": "webpack --mode=production",
+    "build": " babel ./src --out-dir ./dist --extensions \".ts\"",
+    "postbuild": "npm run bundle",
+    "bundle": "webpack --mode=production",
     "prepublishOnly": "npm run build",
     "prestart": "git config commit.template .gitmessage",
     "start": "webpack serve --mode=production",
