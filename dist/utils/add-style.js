@@ -31,17 +31,19 @@ style.textContent = `
     all: unset;
     outline: revert;
     position: absolute;
-    right: 10px;
-    top: 10px;
+    right: 0;
+    top: 0;
     z-index: 1;
+    padding: 10px;
     display: block;
+    font-family: inherit;
     color: #fff;
     opacity: 0;
     mix-blend-mode: exclusion;
   }
 
   code-block:hover button,
-  code-block:not(:hover) button:focus {
+  code-block button:focus {
     opacity: 1;
   }
 
