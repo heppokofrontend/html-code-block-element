@@ -1,7 +1,7 @@
 // Inserts the style element into the page for
 // the default style of the code-block element.
 const style = document.createElement('style');
-const link = document.querySelector('head link');
+const link = document.querySelector('head link, head style');
 
 style.textContent = `
   code-block {
