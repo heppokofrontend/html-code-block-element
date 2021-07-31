@@ -63,14 +63,18 @@
 
 <code-block language="html">
 <textarea><code-block language="html">
-<textarea><script>console.log(true);</script>&lt;/textarea>
+<textarea>
+<script>console.log(true);</script>
+&lt;/textarea>
 </code-block></textarea>
 </code-block>
 
 <h3>Result</h3>
 
 <code-block language="html">
-<textarea><script>console.log(true);</script></textarea>
+<textarea>
+<script>console.log(true);</script>
+</textarea>
 </code-block>
 
 <h2>Playground</h2>
@@ -79,46 +83,39 @@
 
 <p>Let's run these JS on this page.</p>
 
-<code-block language="js" controls>
-<textarea>{
-  const value = `<div>
+<code-block language="js" label="Example: HTML" controls>
+<textarea>
+cb.language = 'html';
+cb.value = `<div>
   <h2>Hello world</h2>
 
   <p class="example">This is sample markup.</p>
 </div>`;
-
-  cb.value = value;
-  cb.language = 'html';
-}</textarea>
+</textarea>
 </code-block>
 
-<code-block language="js" controls>
-<textarea>{
-  const value = `{
+<code-block language="js" label="Example: CSS" controls>
+<textarea>
+cb.language = 'css';
+cb.value = `body {
+  /* This is sample css */
+  font-size: 100px;
+}`;
+</textarea>
+</code-block>
+
+<code-block language="js" label="Example: JSON" controls>
+<textarea>
+cb.language = 'json';
+cb.value = `{
   "items": [
     100,
     null,
     "This is sample json"
   ]
 }`;
-
-  cb.value = value;
-  cb.language = 'json';
-}</textarea>
+</textarea>
 </code-block>
-
-<code-block language="js" controls>
-<textarea>{
-  const value = `body {
-  /* This is sample css */
-  font-size: 100px;
-}`;
-
-  cb.value = value;
-  cb.language = 'css';
-}</textarea>
-</code-block>
-
 </main>
 <footer>
 <p><a href="https://github.com/heppokofrontend/html-code-block-element">Github</a></p>
