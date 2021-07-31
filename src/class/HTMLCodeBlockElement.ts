@@ -7,7 +7,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
    * you need to assign it directly to `HTMLCodeBlockElement.endgine`.
    * Currently, only highlight.js is assumed.
    */
-  static endgine: HLJSApi;
+  static endgine: any;
 
   /**
    * Returns the result of highlighting the received source code string.
@@ -17,7 +17,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
    */
   static highlight(
     src: string,
-    options: HighlightOptions,
+    options?: HighlightOptions,
   ): {
     value: string,
   } {
@@ -27,18 +27,20 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       throw new Error('The syntax highlighting engine is not set to `HTMLCodeBlockElement.endgine`.');
     }
 
+    const hljs: HLJSApi = endgine;
+
     if (
       // Verifying the existence of a language
       options?.language &&
-      endgine.getLanguage(options.language)
+      hljs.getLanguage(options.language)
     ) {
-      return endgine.highlight(
+      return hljs.highlight(
         src,
         options,
       );
     }
 
-    return endgine.highlightAuto(src);
+    return hljs.highlightAuto(src);
   }
 
   #slots = (() => {
