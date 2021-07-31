@@ -20,7 +20,7 @@ module.exports = {
     'html-code-block-element.all.min': './src/index.all.ts',
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'lib'),
     library: 'HTMLCodeBlockElement',
     libraryExport: 'HTMLCodeBlockElement',
     libraryTarget: 'window',
