@@ -52,7 +52,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   #controls: boolean = false;
 
   /** Outputs the resulting syntax-highlighted markup to the DOM. */
-  #render() {
+  #render = function (this: HTMLCodeBlockElement) {
     if (!this.parentNode) {
       return;
     }
