@@ -64,7 +64,7 @@
     "prestart": "git config commit.template .gitmessage",
     "start": "webpack serve --mode=production",
     "test": "jest --coverage",
-    "test:watch": "jest --watch --caverage",
+    "test:watch": "jest --watch --coverage",
     "deploy:demo": "gh-pages -d demo"
   }
 }
