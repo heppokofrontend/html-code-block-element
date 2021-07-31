@@ -59,7 +59,7 @@ or
 - **Content attributes:**
   - [Global attributes](https://html.spec.whatwg.org/multipage/dom.html#global-attributes)
   - `controls` - Show controls
-  - `label` - Give the code block a name. If omitted, the name will be "code block".
+  - `label` - Give the code block a unique name. If omitted, it will always have the accessible name "Code Block".
   - `language` - Language name of the code. If omitted, it will be detected automatically.
 - **Accessibility considerations:**
   - [No corresponding role](https://w3c.github.io/html-aria/#dfn-no-corresponding-role)
