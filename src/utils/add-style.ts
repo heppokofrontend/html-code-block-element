@@ -5,9 +5,24 @@ const link = document.querySelector('head link, head style');
 
 style.textContent = `
   code-block {
+    position: relative;
     margin: 1em 0;
     display: block;
+    font-size: 80%;
     font-family: Consolas, Monaco, monospace;
+  }
+  code-block span[slot="name"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 5px;
+    color: #fff;
+    line-height: 1.5;
+    background: #75758a;
+  }
+  code-block pre,
+  code-block code {
+    font-family: inherit;
   }
   code-block pre {
     margin: 0;
@@ -18,7 +33,10 @@ style.textContent = `
     font-size: 100%;
     overflow-x: auto;
   }
-`;
+  code-block[label] pre code {
+    padding-top: 2em;
+  }
+  `;
 
 if (link) {
   link.before(style);
