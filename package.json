@@ -17,6 +17,7 @@
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.35",
     "babel-loader": "^8.2.2",
+    "gh-pages": "^3.2.3",
     "jest": "^26.6.3",
     "license-webpack-plugin": "^2.3.20",
     "terser-webpack-plugin": "^5.1.4",
@@ -63,6 +64,7 @@
     "prestart": "git config commit.template .gitmessage",
     "start": "webpack serve --mode=production",
     "test": "jest --coverage",
-    "test:watch": "jest --watch --caverage"
+    "test:watch": "jest --watch --caverage",
+    "deploy:demo": "gh-pages -d demo"
   }
 }
