@@ -9,6 +9,8 @@ It has [highlight.js](https://www.npmjs.com/package/highlight.js?activeTab=readm
 
 ## Usage
 
+DEMO: <https://heppokofrontend.github.io/html-code-block-element/>
+
 ### In browser
 
 It can be used by loading html-code-block-element.common.min.js and one CSS theme.
