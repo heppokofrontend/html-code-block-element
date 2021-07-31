@@ -126,11 +126,13 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     return this.#value;
   }
 
-  set value(src: string) {
-    if (/\n$/.test(src)) {
-      this.#value = `${src}\n`;
+  set value(src: any) {
+    const _src = String(src);
+
+    if (/\n$/.test(_src)) {
+      this.#value = `${_src}\n`;
     } else {
-      this.#value = src;
+      this.#value = _src;
     }
 
     this.#render();
@@ -144,7 +146,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     return this.#label;
   }
 
-  set label(value: string) {
+  set label(value: any) {
     if (value === null) {
       this.#label = '';
       this.removeAttribute('label');
