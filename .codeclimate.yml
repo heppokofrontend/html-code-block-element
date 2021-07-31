@@ -1,3 +1,4 @@
 version: "2"         # required to adjust maintainability checks
 exclude_patterns:
   - "**/*.test.ts"
+  - "**/*.js"
