@@ -27,7 +27,26 @@ class HTMLCodeBlockElement extends HTMLElement {
         }
         return endgine.highlightAuto(src);
     }
-    #shadowRoot;
+    #slots = (() => {
+        /**
+         * @param name - The value of name attribute for the slot element
+         * @returns - The slot element
+         */
+        const mkslot = (name, id) => {
+            const slot = document.createElement('slot');
+            slot.name = name;
+            if (id) {
+                slot.id = id;
+            }
+            return slot;
+        };
+        return {
+            name: mkslot('name', 'name'),
+            copyButton: mkslot('copy-button'),
+            code: mkslot('code'),
+        };
+    })();
+    #a11yName;
     #codeBlock;
     #codeWrap;
     /** Actual value of the accessor `value` */
@@ -44,13 +63,16 @@ class HTMLCodeBlockElement extends HTMLElement {
             return;
         }
         /** The resulting syntax-highlighted markup */
-        const markup = HTMLCodeBlockElement.highlight(this.#value, {
+        const { value: markup } = HTMLCodeBlockElement.highlight(this.#value, {
             language: this.#language,
-        }).value;
+        });
         // initialize
         this.textContent = '';
+        this.#a11yName.textContent = this.#label;
+        this.#slots.name.hidden = !this.#label;
         this.#codeBlock.textContent = '';
         this.#codeBlock.insertAdjacentHTML('afterbegin', markup);
+        this.append(this.#a11yName);
         this.append(this.#codeWrap);
     };
     /** @returns - Syntax Highlighted Source Code */
@@ -68,14 +90,14 @@ class HTMLCodeBlockElement extends HTMLElement {
     get label() {
         return this.#label;
     }
-    set label(name) {
-        // TODO: Accessiblity Treeにアクセシブルネームを提供する
-        this.#label = name || '';
-        if (this.#label) {
-            this.setAttribute('label', name);
+    set label(value) {
+        if (value === null) {
+            this.#label = '';
+            this.removeAttribute('label');
         }
         else {
-            this.removeAttribute('label');
+            this.#label = String(value);
+            this.setAttribute('label', this.#label);
         }
         this.#render();
     }
@@ -86,13 +108,14 @@ class HTMLCodeBlockElement extends HTMLElement {
     get language() {
         return this.#language;
     }
-    set language(name) {
-        this.#language = name || '';
-        if (this.#language) {
-            this.setAttribute('language', name);
+    set language(value) {
+        if (value === null) {
+            this.#language = '';
+            this.removeAttribute('language');
         }
         else {
-            this.removeAttribute('language');
+            this.#language = String(value);
+            this.setAttribute('language', this.#language);
         }
         this.#render();
     }
@@ -103,9 +126,9 @@ class HTMLCodeBlockElement extends HTMLElement {
     get controls() {
         return this.#controls;
     }
-    set controls(flag) {
-        // TODO: コピーボタン、ラベルの表示切り替え
-        this.#controls = flag;
+    set controls(value) {
+        // TODO: コピーボタンの表示切り替え
+        this.#controls = value;
         if (this.#controls) {
             this.setAttribute('controls', '');
         }
@@ -131,7 +154,7 @@ class HTMLCodeBlockElement extends HTMLElement {
             // string
             case 'label':
             case 'language':
-                this[attrName] = newValue || '';
+                this[attrName] = newValue;
                 break;
             // boolean
             case 'controls':
@@ -143,37 +166,61 @@ class HTMLCodeBlockElement extends HTMLElement {
     }
     constructor() {
         super();
+        /* -------------------------------------------------------------------------
+         * Setup Shadow DOM contents
+         * ---------------------------------------------------------------------- */
         /**
-         * @param name - The value of name attribute for the slot element
-         * @returns - The slot element
+         * The container of minimum text that will be read even
+         * if the accessible name (label attribute value) is omitted.
          */
-        const mkslot = (name) => {
-            const slot = document.createElement('slot');
-            slot.name = name;
-            return slot;
-        };
-        const slots = [
-            mkslot('label'),
-            mkslot('copy-button'),
-            mkslot('code'),
-        ];
-        const pre = document.createElement('pre');
-        const code = document.createElement('code');
-        code.tabIndex = 0;
-        code.className = 'hljs'; // TODO: Make it variable
-        pre.slot = 'code';
-        pre.append(code);
-        // Hard private props initialize
-        this.#value = (this.textContent || '').replace(/^\n/, '');
-        this.#label = this.getAttribute('label') || '';
-        this.#language = this.getAttribute('language') || '';
-        this.#controls = this.getAttribute('controls') !== null;
-        this.#shadowRoot = this.attachShadow({
+        const a11yNamePrefix = (() => {
+            const span = document.createElement('span');
+            span.id = 'semantics';
+            span.hidden = true;
+            span.textContent = 'Code Block';
+            return span;
+        })();
+        /** Container of accessible names (label attribute values). */
+        const a11yName = (() => {
+            const span = document.createElement('span');
+            span.slot = 'name';
+            span.textContent = this.getAttribute('label') || '';
+            return span;
+        })();
+        const codeElm = (() => {
+            const code = document.createElement('code');
+            code.tabIndex = 0;
+            code.className = 'hljs'; // TODO: Make it variable
+            return code;
+        })();
+        const preElm = (() => {
+            const pre = document.createElement('pre');
+            pre.slot = 'code';
+            pre.append(codeElm);
+            return pre;
+        })();
+        const container = (() => {
+            const div = document.createElement('div');
+            div.append(...Object.values(this.#slots));
+            div.setAttribute('role', 'group');
+            div.setAttribute('aria-labelledby', 'semantics name');
+            return div;
+        })();
+        const shadowRoot = this.attachShadow({
             mode: 'closed',
         });
-        this.#codeBlock = code;
-        this.#codeWrap = pre;
-        this.#shadowRoot.append(...slots);
+        shadowRoot.append(a11yNamePrefix);
+        shadowRoot.append(container);
+        /* -------------------------------------------------------------------------
+         * Hard private props initialize
+         * ---------------------------------------------------------------------- */
+        this.#value = (this.textContent || '').replace(/^\n/, '').replace(/\n$/, '');
+        this.#label = a11yName.textContent || '';
+        this.#language = this.getAttribute('language') || '';
+        this.#controls = this.getAttribute('controls') !== null;
+        this.#a11yName = a11yName;
+        this.#codeBlock = codeElm;
+        this.#codeWrap = preElm;
     }
 }
 exports.default = HTMLCodeBlockElement;

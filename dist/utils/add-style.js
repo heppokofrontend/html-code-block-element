@@ -5,9 +5,29 @@ const style = document.createElement('style');
 const link = document.querySelector('head link, head style');
 style.textContent = `
   code-block {
+    position: relative;
     margin: 1em 0;
     display: block;
+    font-size: 80%;
     font-family: Consolas, Monaco, monospace;
+  }
+  code-block span[slot="name"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 5px;
+    max-width: 90%;
+    color: #fff;
+    white-space: pre;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: #75758a;
+    box-sizing: border-box;
+  }
+  code-block pre,
+  code-block code {
+    font-family: inherit;
   }
   code-block pre {
     margin: 0;
@@ -18,7 +38,10 @@ style.textContent = `
     font-size: 100%;
     overflow-x: auto;
   }
-`;
+  code-block[label]:not([label=""]) pre code {
+    padding-top: 2em;
+  }
+  `;
 if (link) {
     link.before(style);
 }

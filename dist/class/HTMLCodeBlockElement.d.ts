@@ -23,19 +23,19 @@ export default class HTMLCodeBlockElement extends HTMLElement {
      * @returns - The value of the label attribute
      */
     get label(): string;
-    set label(name: string);
+    set label(value: string);
     /**
      * Language Mode
      * @returns - The value of the language attribute
      */
-    get language(): string;
-    set language(name: string);
+    get language(): any;
+    set language(value: any);
     /**
      * Flag to display the UI
      * @returns - With or without controls attribute
      * */
     get controls(): boolean;
-    set controls(flag: boolean);
+    set controls(value: boolean);
     static get observedAttributes(): string[];
     attributeChangedCallback(attrName: string, oldValue: string, newValue: string): void;
     connectedCallback(): void;
