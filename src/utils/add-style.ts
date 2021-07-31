@@ -16,9 +16,14 @@ style.textContent = `
     top: 0;
     left: 0;
     padding: 0 5px;
+    max-width: 90%;
     color: #fff;
+    white-space: pre;
     line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
     background: #75758a;
+    box-sizing: border-box;
   }
   code-block pre,
   code-block code {
@@ -33,7 +38,7 @@ style.textContent = `
     font-size: 100%;
     overflow-x: auto;
   }
-  code-block[label] pre code {
+  code-block[label]:not([label=""]) pre code {
     padding-top: 2em;
   }
   `;
