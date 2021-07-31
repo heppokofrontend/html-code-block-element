@@ -18,7 +18,9 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   static highlight(
     src: string,
     options: HighlightOptions,
-  ) {
+  ): {
+    value: string,
+  } {
     const {endgine} = HTMLCodeBlockElement;
 
     if (!endgine) {
