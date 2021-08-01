@@ -25,7 +25,7 @@ jobs:
       with:
         node-version: '14'
     - run: npm ci
-    - run: npm eslint
+    - run: npm run eslint
     - run: npm test
     - uses: paambaati/codeclimate-action@v2.7.5
       env:
