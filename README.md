@@ -114,6 +114,7 @@ import HTMLCodeBlockElement from 'html-code-block-element/dist/class/HTMLCodeBlo
 Manual setup:
 
 ```js
+// 1. Import
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 import HTMLCodeBlockElement from 'html-code-block-element/dist/class/HTMLCodeBlockElement';
@@ -122,13 +123,39 @@ import HTMLCodeBlockElement from 'html-code-block-element/dist/class/HTMLCodeBlo
 // Support JavaScript
 hljs.registerLanguage('javascript', javascript);
 
-// Set endgine
-HTMLCodeBlockElement.endgine = hljs;
 
-// Define
+// 2. Set endgine
+/**
+ * Example: Callback to be called internally
+ * @param {string} src - Source code string for highlight
+ * @param {{ language: string }} options - Option for highlight
+ * @returns {{ markup: string }} - Object of the highlight result
+ */
+HTMLCodeBlockElement.highlight = function (src, options) {
+  if (
+    // Verifying the existence of a language
+    options?.language &&
+    hljs.getLanguage(options.language)
+  ) {
+    const {value} = hljs.highlight(
+      src,
+      options,
+    );
+
+    return {
+      markup: value,
+    };
+  }
+
+  return {
+    markup: hljs.highlightAuto(src).value,
+  };
+}
+
+// 3. Define
 customElements.define('code-block', HTMLCodeBlockElement);
 
-// Use
+// 4. Use
 const cbElm = new HTMLCodeBlockElement();
 ```
 
