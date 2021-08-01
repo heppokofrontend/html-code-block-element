@@ -108,8 +108,10 @@ export default class HTMLCodeBlockElement extends HTMLElement {
 
       await copy(value);
 
+      this.#copyButton.classList.add('--copied');
       this.#copyButton.textContent = 'Copied!';
       key = window.setTimeout(() => {
+        this.#copyButton.classList.remove('--copied');
         this.#copyButton.textContent = 'Copy';
       }, 1500);
     };
