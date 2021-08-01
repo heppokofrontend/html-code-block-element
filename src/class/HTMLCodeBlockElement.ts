@@ -104,8 +104,16 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       return;
     }
 
+    const src = (() => {
+      if (/[^\n]\n$/.test(this.#value)) {
+        return `${this.#value}\n`;
+      }
+
+      return this.#value;
+    })()
+
     /** The resulting syntax-highlighted markup */
-    const {value: markup} = HTMLCodeBlockElement.highlight(this.#value, {
+    const {value: markup} = HTMLCodeBlockElement.highlight(src, {
       language: this.#language,
     });
 
@@ -127,14 +135,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   }
 
   set value(src: any) {
-    const _src = String(src);
-
-    if (/\n$/.test(_src)) {
-      this.#value = `${_src}\n`;
-    } else {
-      this.#value = _src;
-    }
-
+    this.#value = String(src);
     this.#render();
   }
 
@@ -315,7 +316,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     /* -------------------------------------------------------------------------
      * Hard private props initialize
      * ---------------------------------------------------------------------- */
-    this.#value = (this.textContent || '').replace(/^\n/, '');
+    this.#value = (this.textContent || '').replace(/^\n/, '').replace(/\n$/, '');
     this.#label = a11yName.textContent || '';
     this.#language = this.getAttribute('language') || '';
     this.#controls = this.getAttribute('controls') !== null;
