@@ -1,47 +1,20 @@
-import {HLJSApi, HighlightOptions} from 'highlight.js';
-
 export default class HTMLCodeBlockElement extends HTMLElement {
   /**
-   * A library for performing syntax highlighting.
-   * Before running `customElements.define()`,
-   * you need to assign it directly to `HTMLCodeBlockElement.endgine`.
-   * Currently, only highlight.js is assumed.
-   */
-  static endgine: any;
-
-  /**
    * Returns the result of highlighting the received source code string.
+   * Before running `customElements.define()`,
+   * you need to assign it directly to `HTMLCodeBlockElement.highlight`.
    * @param src - Source code string for highlight
-   * @param options - Option for library of highlight
+   * @param options - Option for highlight
    * @returns - Object of the highlight result
    */
-  static highlight(
-    src: string,
-    options?: HighlightOptions,
-  ): {
-    value: string,
-  } {
-    const {endgine} = HTMLCodeBlockElement;
-
-    if (!endgine) {
-      throw new Error('The syntax highlighting engine is not set to `HTMLCodeBlockElement.endgine`.');
-    }
-
-    const hljs: HLJSApi = endgine;
-
-    if (
-      // Verifying the existence of a language
-      options?.language &&
-      hljs.getLanguage(options.language)
-    ) {
-      return hljs.highlight(
-        src,
-        options,
-      );
-    }
-
-    return hljs.highlightAuto(src);
-  }
+  static highlight: (src: string, options?: {
+    /** Language Mode Name */
+    language: string,
+  }) => {
+    markup: string,
+  } = () => {
+    throw new TypeError('The syntax highlighting engine is not set to `HTMLCodeBlockElement.highlight`.');
+  };
 
   #slots = (() => {
     /**
@@ -113,7 +86,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     })()
 
     /** The resulting syntax-highlighted markup */
-    const {value: markup} = HTMLCodeBlockElement.highlight(src, {
+    const {markup} = HTMLCodeBlockElement.highlight(src, {
       language: this.#language,
     });
 
