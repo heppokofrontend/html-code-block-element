@@ -51,22 +51,31 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       code: mkslot('code'),
     };
   })();
+
   /** Pure DOM content */
   #a11yName: HTMLElement;
+
   /** Pure DOM content */
   #copyButton: HTMLButtonElement;
+
   /** Pure DOM content */
   #codeBlock: HTMLElement;
+
   /** Pure DOM content */
   #codeWrap: HTMLPreElement;
+
   /** Actual value of the accessor `value` */
   #value: string = '';
+
   /** Actual value of the accessor `label` */
   #label: string = '';
+
   /** Actual value of the accessor `language` */
   #language: string = '';
+
   /** Actual value of the accessor `controls` */
   #controls: boolean = false;
+
   /** Click event handler of copy button */
   #onClickButton = (() => {
     let key = -1;
@@ -105,6 +114,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       }, 1500);
     };
   })();
+
   /**
    * Outputs the resulting syntax-highlighted markup to the DOM.
    * @param this - instance

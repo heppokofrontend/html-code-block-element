@@ -26,3 +26,6 @@ rules:
     - requireReturn: false
       requireParamType: false
       requireReturnType: false
+  lines-between-class-members:
+    - error
+    - always
