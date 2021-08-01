@@ -24,6 +24,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     throw new TypeError('The syntax highlighting engine is not set to `HTMLCodeBlockElement.highlight`.');
   };
 
+  /** Slot elements for Shadow DOM content */
   #slots = (() => {
     /**
      * @param name - The value of name attribute for the slot element
@@ -47,9 +48,13 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       code: mkslot('code'),
     };
   })();
+  /** Pure DOM content */
   #a11yName: HTMLElement;
+  /** Pure DOM content */
   #copyButton: HTMLButtonElement;
+  /** Pure DOM content */
   #codeBlock: HTMLElement;
+  /** Pure DOM content */
   #codeWrap: HTMLPreElement;
   /** Actual value of the accessor `value` */
   #value: string = '';
