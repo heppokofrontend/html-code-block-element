@@ -1,40 +1,44 @@
-import { HLJSApi, HighlightOptions } from 'highlight.js';
+export declare namespace Endgine {
+    type Options = {
+        /** Language Mode Name */
+        language: string;
+    };
+    type Result = {
+        markup: string;
+    };
+    export type callback = (src: string, options?: Options) => Result;
+    export {};
+}
+/** The HTML element for highlighting code fragments. */
 export default class HTMLCodeBlockElement extends HTMLElement {
     #private;
     /**
-     * A library for performing syntax highlighting.
-     * Before running `customElements.define()`,
-     * you need to assign it directly to `HTMLCodeBlockElement.endgine`.
-     * Currently, only highlight.js is assumed.
-     */
-    static endgine: HLJSApi;
-    /**
      * Returns the result of highlighting the received source code string.
+     * Before running `customElements.define()`,
+     * you need to assign it directly to `HTMLCodeBlockElement.highlight`.
      * @param src - Source code string for highlight
-     * @param options - Option for library of highlight
-     * @returns - Object of the highlight result
+     * @param options - Option for highlight
+     * @return - Object of the highlight result
      */
-    static highlight(src: string, options: HighlightOptions): {
-        value: string;
-    };
-    /** @returns - Syntax Highlighted Source Code */
-    get value(): string;
-    set value(src: string);
+    static highlight: Endgine.callback;
+    /** @return - Syntax Highlighted Source Code */
+    get value(): any;
+    set value(src: any);
     /**
      * The name of code block
-     * @returns - The value of the label attribute
+     * @return - The value of the label attribute
      */
-    get label(): string;
-    set label(value: string);
+    get label(): any;
+    set label(value: any);
     /**
      * Language Mode
-     * @returns - The value of the language attribute
+     * @return - The value of the language attribute
      */
     get language(): any;
     set language(value: any);
     /**
      * Flag to display the UI
-     * @returns - With or without controls attribute
+     * @return - With or without controls attribute
      * */
     get controls(): boolean;
     set controls(value: boolean);

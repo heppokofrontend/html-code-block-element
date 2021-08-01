@@ -1,36 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/** The HTML element for highlighting code fragments. */
 class HTMLCodeBlockElement extends HTMLElement {
     /**
-     * A library for performing syntax highlighting.
-     * Before running `customElements.define()`,
-     * you need to assign it directly to `HTMLCodeBlockElement.endgine`.
-     * Currently, only highlight.js is assumed.
-     */
-    static endgine;
-    /**
      * Returns the result of highlighting the received source code string.
+     * Before running `customElements.define()`,
+     * you need to assign it directly to `HTMLCodeBlockElement.highlight`.
      * @param src - Source code string for highlight
-     * @param options - Option for library of highlight
-     * @returns - Object of the highlight result
+     * @param options - Option for highlight
+     * @return - Object of the highlight result
      */
-    static highlight(src, options) {
-        const { endgine } = HTMLCodeBlockElement;
-        if (!endgine) {
-            throw new Error('The syntax highlighting engine is not set to `HTMLCodeBlockElement.endgine`.');
-        }
-        if (
-        // Verifying the existence of a language
-        options?.language &&
-            endgine.getLanguage(options.language)) {
-            return endgine.highlight(src, options);
-        }
-        return endgine.highlightAuto(src);
-    }
+    static highlight = (src, options) => {
+        throw new TypeError('The syntax highlighting engine is not set to `HTMLCodeBlockElement.highlight`.');
+        return { markup: '' };
+    };
+    /** Slot elements for Shadow DOM content */
     #slots = (() => {
         /**
          * @param name - The value of name attribute for the slot element
-         * @returns - The slot element
+         * @param id - The value of id attribute for the slot element
+         * @return - The slot element
          */
         const mkslot = (name, id) => {
             const slot = document.createElement('slot');
@@ -46,9 +35,13 @@ class HTMLCodeBlockElement extends HTMLElement {
             code: mkslot('code'),
         };
     })();
+    /** Pure DOM content */
     #a11yName;
+    /** Pure DOM content */
     #copyButton;
+    /** Pure DOM content */
     #codeBlock;
+    /** Pure DOM content */
     #codeWrap;
     /** Actual value of the accessor `value` */
     #value = '';
@@ -61,27 +54,53 @@ class HTMLCodeBlockElement extends HTMLElement {
     /** Click event handler of copy button */
     #onClickButton = (() => {
         let key = -1;
-        const textarea = document.createElement('textarea');
-        return () => {
+        /**
+         * Write to the clipboard.
+         * @param value - String to be saved to the clipboard
+         * @return - A promise
+         */
+        const copy = (value) => {
+            if (navigator.clipboard) {
+                return navigator.clipboard.writeText(value);
+            }
+            return new Promise((r) => {
+                const textarea = document.createElement('textarea');
+                textarea.value = value;
+                document.body.append(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                textarea.remove();
+                r();
+            });
+        };
+        return async () => {
+            const value = this.#value.replace(/\n$/, '');
             clearTimeout(key);
-            textarea.value = this.#value.replace(/\n$/, '');
-            document.body.append(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
+            await copy(value);
+            this.#copyButton.classList.add('--copied');
             this.#copyButton.textContent = 'Copied!';
             key = window.setTimeout(() => {
+                this.#copyButton.classList.remove('--copied');
                 this.#copyButton.textContent = 'Copy';
             }, 1500);
         };
     })();
-    /** Outputs the resulting syntax-highlighted markup to the DOM. */
+    /**
+     * Outputs the resulting syntax-highlighted markup to the DOM.
+     * @param this - instance
+     */
     #render = function () {
         if (!this.parentNode) {
             return;
         }
+        const src = (() => {
+            if (/[^\n]\n$/.test(this.#value)) {
+                return `${this.#value}\n`;
+            }
+            return this.#value;
+        })();
         /** The resulting syntax-highlighted markup */
-        const { value: markup } = HTMLCodeBlockElement.highlight(this.#value, {
+        const { markup } = HTMLCodeBlockElement.highlight(src, {
             language: this.#language,
         });
         // initialize
@@ -95,22 +114,17 @@ class HTMLCodeBlockElement extends HTMLElement {
         this.append(this.#copyButton);
         this.append(this.#codeWrap);
     };
-    /** @returns - Syntax Highlighted Source Code */
+    /** @return - Syntax Highlighted Source Code */
     get value() {
         return this.#value;
     }
     set value(src) {
-        if (/\n$/.test(src)) {
-            this.#value = `${src}\n`;
-        }
-        else {
-            this.#value = src;
-        }
+        this.#value = String(src);
         this.#render();
     }
     /**
      * The name of code block
-     * @returns - The value of the label attribute
+     * @return - The value of the label attribute
      */
     get label() {
         return this.#label;
@@ -128,7 +142,7 @@ class HTMLCodeBlockElement extends HTMLElement {
     }
     /**
      * Language Mode
-     * @returns - The value of the language attribute
+     * @return - The value of the language attribute
      */
     get language() {
         return this.#language;
@@ -146,7 +160,7 @@ class HTMLCodeBlockElement extends HTMLElement {
     }
     /**
      * Flag to display the UI
-     * @returns - With or without controls attribute
+     * @return - With or without controls attribute
      * */
     get controls() {
         return this.#controls;
@@ -250,7 +264,7 @@ class HTMLCodeBlockElement extends HTMLElement {
         /* -------------------------------------------------------------------------
          * Hard private props initialize
          * ---------------------------------------------------------------------- */
-        this.#value = (this.textContent || '').replace(/^\n/, '');
+        this.#value = (this.textContent || '').replace(/^\n/, '').replace(/\n$/, '');
         this.#label = a11yName.textContent || '';
         this.#language = this.getAttribute('language') || '';
         this.#controls = this.getAttribute('controls') !== null;
