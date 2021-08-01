@@ -62,18 +62,31 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   /** Click event handler of copy button */
   #onClickButton = (() => {
     let key = -1;
-    const textarea = document.createElement('textarea');
+    const copy = (): Promise<void> => {
+      const value = this.#value.replace(/\n$/, '');
 
-    return () => {
+      if (navigator.clipboard){
+        return navigator.clipboard.writeText(value);
+      }
+
+      return new Promise((r) => {
+        const textarea = document.createElement('textarea');
+
+        textarea.value = value;
+        document.body.append(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        textarea.remove();
+        r();
+      });
+    }
+
+    return async () => {
       clearTimeout(key);
 
-      textarea.value = this.#value.replace(/\n$/, '');
-      document.body.append(textarea);
-      textarea.select();
-      document.execCommand('copy');
-      textarea.remove();
-      this.#copyButton.textContent = 'Copied!';
+      await copy();
 
+      this.#copyButton.textContent = 'Copied!';
       key = window.setTimeout(() => {
         this.#copyButton.textContent = 'Copy';
       }, 1500);
