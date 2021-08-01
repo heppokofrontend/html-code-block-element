@@ -70,6 +70,7 @@
     "start": "webpack serve --mode=production",
     "test": "jest --coverage --verbose",
     "test:watch": "jest --watch --coverage --verbose",
-    "deploy:demo": "gh-pages -d demo"
+    "deploy:demo": "gh-pages -d demo",
+    "eslint": "eslint \"./src/**/*.ts\" --fix"
   }
 }

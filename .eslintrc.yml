@@ -9,4 +9,20 @@ parserOptions:
   sourceType: module
 plugins:
   - '@typescript-eslint'
-rules: {}
+rules:
+  max-len: 'off'
+  no-unused-vars: 'off'
+  no-invalid-this: 'off'
+  require-jsdoc: 'off'
+  #   - error
+  #   - require:
+  #       FunctionDeclaration: true
+  #       MethodDefinition: true
+  #       ClassDeclaration: true
+  #       ArrowFunctionExpression: true
+  #       FunctionExpression: true
+  valid-jsdoc:
+    - error
+    - requireReturn: false
+      requireParamType: false
+      requireReturnType: false
