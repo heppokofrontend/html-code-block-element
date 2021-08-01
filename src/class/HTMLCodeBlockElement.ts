@@ -1,3 +1,16 @@
+export namespace Endgine {
+  type Options = {
+    /** Language Mode Name */
+    language: string,
+  }
+
+  type Result = {
+    markup: string,
+  };
+
+  export type callback = (src: string, options?: Options) => Result;
+}
+
 export default class HTMLCodeBlockElement extends HTMLElement {
   /**
    * Returns the result of highlighting the received source code string.
@@ -7,12 +20,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
    * @param options - Option for highlight
    * @returns - Object of the highlight result
    */
-  static highlight: (src: string, options?: {
-    /** Language Mode Name */
-    language: string,
-  }) => {
-    markup: string,
-  } = () => {
+  static highlight: Endgine.callback = () => {
     throw new TypeError('The syntax highlighting engine is not set to `HTMLCodeBlockElement.highlight`.');
   };
 
