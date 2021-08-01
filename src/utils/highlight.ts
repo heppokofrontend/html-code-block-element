@@ -3,11 +3,11 @@ import {HLJSApi, HighlightOptions} from 'highlight.js';
 /**
  * Callback maker for highlight.js
  * @param endgine - A library for performing syntax highlighting.
- * @returns - A function for HTMLCodeBlockElement.highlight
+ * @return - A function for HTMLCodeBlockElement.highlight
  */
 export const mkHighlightCallback = (endgine: HLJSApi) => (
-  src: string,
-  options?: HighlightOptions,
+    src: string,
+    options?: HighlightOptions,
 ) => {
   const hljs: HLJSApi = endgine;
 
@@ -18,8 +18,8 @@ export const mkHighlightCallback = (endgine: HLJSApi) => (
   ) {
     return {
       markup: hljs.highlight(
-        src,
-        options,
+          src,
+          options,
       ).value,
     };
   }

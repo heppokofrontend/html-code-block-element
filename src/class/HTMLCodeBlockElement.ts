@@ -11,6 +11,7 @@ export namespace Endgine {
   export type callback = (src: string, options?: Options) => Result;
 }
 
+/** The HTML element for highlighting code fragments. */
 export default class HTMLCodeBlockElement extends HTMLElement {
   /**
    * Returns the result of highlighting the received source code string.
@@ -18,17 +19,19 @@ export default class HTMLCodeBlockElement extends HTMLElement {
    * you need to assign it directly to `HTMLCodeBlockElement.highlight`.
    * @param src - Source code string for highlight
    * @param options - Option for highlight
-   * @returns - Object of the highlight result
+   * @return - Object of the highlight result
    */
-  static highlight: Endgine.callback = () => {
+  static highlight: Endgine.callback = (src: string, options: any) => {
     throw new TypeError('The syntax highlighting engine is not set to `HTMLCodeBlockElement.highlight`.');
+    return {markup: ''};
   };
 
   /** Slot elements for Shadow DOM content */
   #slots = (() => {
     /**
      * @param name - The value of name attribute for the slot element
-     * @returns - The slot element
+     * @param id - The value of id attribute for the slot element
+     * @return - The slot element
      */
     const mkslot = (name: string, id?: string) => {
       const slot = document.createElement('slot');
@@ -67,10 +70,13 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   /** Click event handler of copy button */
   #onClickButton = (() => {
     let key = -1;
-    const copy = (): Promise<void> => {
-      const value = this.#value.replace(/\n$/, '');
-
-      if (navigator.clipboard){
+    /**
+     * Write to the clipboard.
+     * @param value - String to be saved to the clipboard
+     * @return - A promise
+     */
+    const copy = (value: string): Promise<void> => {
+      if (navigator.clipboard) {
         return navigator.clipboard.writeText(value);
       }
 
@@ -84,12 +90,14 @@ export default class HTMLCodeBlockElement extends HTMLElement {
         textarea.remove();
         r();
       });
-    }
+    };
 
     return async () => {
+      const value = this.#value.replace(/\n$/, '');
+
       clearTimeout(key);
 
-      await copy();
+      await copy(value);
 
       this.#copyButton.textContent = 'Copied!';
       key = window.setTimeout(() => {
@@ -97,8 +105,11 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       }, 1500);
     };
   })();
-  /** Outputs the resulting syntax-highlighted markup to the DOM. */
-  #render = function (this: HTMLCodeBlockElement) {
+  /**
+   * Outputs the resulting syntax-highlighted markup to the DOM.
+   * @param this - instance
+   */
+  #render = function(this: HTMLCodeBlockElement) {
     if (!this.parentNode) {
       return;
     }
@@ -109,7 +120,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       }
 
       return this.#value;
-    })()
+    })();
 
     /** The resulting syntax-highlighted markup */
     const {markup} = HTMLCodeBlockElement.highlight(src, {
@@ -128,7 +139,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     this.append(this.#codeWrap);
   }
 
-  /** @returns - Syntax Highlighted Source Code */
+  /** @return - Syntax Highlighted Source Code */
   get value() {
     return this.#value;
   }
@@ -140,7 +151,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
 
   /**
    * The name of code block
-   * @returns - The value of the label attribute
+   * @return - The value of the label attribute
    */
   get label() {
     return this.#label;
@@ -160,7 +171,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
 
   /**
    * Language Mode
-   * @returns - The value of the language attribute
+   * @return - The value of the language attribute
    */
   get language() {
     return this.#language;
@@ -180,7 +191,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
 
   /**
    * Flag to display the UI
-   * @returns - With or without controls attribute
+   * @return - With or without controls attribute
    * */
   get controls() {
     return this.#controls;
@@ -207,9 +218,9 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   }
 
   attributeChangedCallback(
-    attrName: string,
-    oldValue: string,
-    newValue: string,
+      attrName: string,
+      oldValue: string,
+      newValue: string,
   ) {
     if (oldValue === newValue) {
       return;
@@ -294,7 +305,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       span.textContent = 'Code Block';
 
       return span;
-    })()
+    })();
     const container = (() => {
       const div = document.createElement('div');
 
