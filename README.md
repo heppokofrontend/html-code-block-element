@@ -19,7 +19,7 @@ The highlight.js style is available on CDN.　You can also download the JS and C
 
 ```html
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/vs.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/@heppokofrontend/html-code-block-element@1.0.0/dist/html-code-block-element.common.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@heppokofrontend/html-code-block-element/dist/html-code-block-element.common.min.js" defer></script>
 ```
 
 There are three versions of this library available.
