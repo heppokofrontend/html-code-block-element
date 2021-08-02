@@ -54,7 +54,7 @@
     "web-components"
   ],
   "license": "MIT",
-  "main": "dist/html-code-block-element.common.min.js",
+  "main": "dist/index.common.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/heppokofrontend/code-block-element.git"
