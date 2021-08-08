@@ -185,6 +185,7 @@ cbElm.value = `const hoge = true;
 
 console.log(hoge);`;
 
+
 // 6. Append
 document.body.append(cbElm); // Render at the same time
 ```
