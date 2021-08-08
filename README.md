@@ -172,8 +172,18 @@ HTMLCodeBlockElement.highlight = function (src, options) {
 // 3. Define
 customElements.define('code-block', HTMLCodeBlockElement);
 
-// 4. Use
+// 4. Make
 const cbElm = new HTMLCodeBlockElement();
+
+// 5. Assign
+cbElm.language = 'javascript';
+cbElm.label = 'your label';
+cbElm.value = `const hoge = true;
+
+console.log(hoge);`;
+
+// 6. Append
+document.body.append(cbElm); // Render at the same time
 ```
 
 ##### Syntax
