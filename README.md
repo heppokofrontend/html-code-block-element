@@ -169,11 +169,14 @@ HTMLCodeBlockElement.highlight = function (src, options) {
   };
 }
 
+
 // 3. Define
 customElements.define('code-block', HTMLCodeBlockElement);
 
+
 // 4. Make
 const cbElm = new HTMLCodeBlockElement();
+
 
 // 5. Assign
 cbElm.language = 'javascript';
