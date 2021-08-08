@@ -1,6 +1,6 @@
 # &lt;code-block&gt;
 
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE) [![Published on NPM](https://img.shields.io/npm/v/@heppokofrontend/html-code-block-element.svg)](https://www.npmjs.com/package/@heppokofrontend/html-code-block-element) [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/@heppokofrontend/html-code-block-element) [![](https://data.jsdelivr.com/v1/package/npm/@heppokofrontend/html-code-block-element/badge)](https://www.jsdelivr.com/package/npm/@heppokofrontend/html-code-block-element) [![Maintainability](https://api.codeclimate.com/v1/badges/38a4e238adb7401844ba/maintainability)](https://codeclimate.com/github/heppokofrontend/html-code-block-element/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/38a4e238adb7401844ba/test_coverage)](https://codeclimate.com/github/heppokofrontend/html-code-block-element/test_coverage) [![Known Vulnerabilities](https://snyk.io/test/npm/@heppokofrontend/html-code-block-element/badge.svg)](https://snyk.io/test/npm/@heppokofrontend/html-code-block-element)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE) [![Published on NPM](https://img.shields.io/npm/v/@heppokofrontend/html-code-block-element.svg)](https://www.npmjs.com/package/@heppokofrontend/html-code-block-element) [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/heppokofrontend/html-code-block-element) [![](https://data.jsdelivr.com/v1/package/npm/@heppokofrontend/html-code-block-element/badge)](https://www.jsdelivr.com/package/npm/@heppokofrontend/html-code-block-element) [![Maintainability](https://api.codeclimate.com/v1/badges/38a4e238adb7401844ba/maintainability)](https://codeclimate.com/github/heppokofrontend/html-code-block-element/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/38a4e238adb7401844ba/test_coverage)](https://codeclimate.com/github/heppokofrontend/html-code-block-element/test_coverage) [![Known Vulnerabilities](https://snyk.io/test/npm/@heppokofrontend/html-code-block-element/badge.svg)](https://snyk.io/test/npm/@heppokofrontend/html-code-block-element)
  [![@heppokofrontend/html-code-block-element](https://snyk.io/advisor/npm-package/@heppokofrontend/html-code-block-element/badge.svg)](https://snyk.io/advisor/npm-package/@heppokofrontend/html-code-block-element)
 
 Code block custom element with syntax highlighting and copy button.
@@ -10,6 +10,23 @@ It has [highlight.js](https://www.npmjs.com/package/highlight.js?activeTab=readm
 ## Usage
 
 DEMO: <https://heppokofrontend.github.io/html-code-block-element/>
+
+<!--
+```
+<custom-element-demo>
+  <template>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/vs.min.css" />
+    <link rel="import" href="./demo/index.html">
+    <next-code-block></next-code-block>
+  </template>
+</custom-element-demo>
+```
+-->
+```html
+<code-block language="html" label="example.html" controls>
+&lt;script&gt;console.log(true);&lt;/script&gt;
+</code-block>
+```
 
 ### In browser
 
@@ -47,7 +64,7 @@ or
 </code-block>
 ```
 
-#### Spec
+#### Assumption specifications
 
 - **Categories:**
   - [Flow content](https://html.spec.whatwg.org/multipage/dom.html#flow-content-2).
