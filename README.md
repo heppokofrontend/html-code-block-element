@@ -32,7 +32,7 @@ DEMO: <https://heppokofrontend.github.io/html-code-block-element/>
 
 It can be used by loading html-code-block-element.common.min.js and one CSS theme.
 
-The highlight.js style is available on CDN.　You can also download the JS and CSS from the respective repositories and load them into your page.
+The highlight.js style is available on CDN. You can also download the JS and CSS from the respective repositories and load them into your page.
 
 ```html
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/vs.min.css" />
