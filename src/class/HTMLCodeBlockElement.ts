@@ -182,7 +182,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   }
 
   /**
-   * The name of code block
+   * The accessible name of code block
    * @return - The value of the label attribute
    */
   get label() {
@@ -202,7 +202,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   }
 
   /**
-   * Language Mode
+   * Language name
    * @return - The value of the language attribute
    */
   get language() {
@@ -222,7 +222,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   }
 
   /**
-   * Flag to display the UI
+   * The flag to display the UI
    * @return - With or without controls attribute
    * */
   get controls() {
