@@ -137,10 +137,13 @@ This package contains the global type files for React.
 
 ```tsx
 // CodeBlock.tsx
-import React, {CodeBlockHTMLAttributes} from 'react';
-import '@heppokofrontend/html-code-block-element';
+import React, {useEffect, CodeBlockHTMLAttributes} from 'react';
 
 export const CodeBlock: React.FC<CodeBlockHTMLAttributes<HTMLElement>> = ({children, ...props}) => {
+  useEffect(() => {
+    import(`@heppokofrontend/html-code-block-element`);
+  });
+
   return (
     <code-block {...props}>{children}</code-block>
   );
