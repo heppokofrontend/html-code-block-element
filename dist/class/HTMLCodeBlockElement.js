@@ -14,6 +14,18 @@ class HTMLCodeBlockElement extends HTMLElement {
         throw new TypeError('The syntax highlighting engine is not set to `HTMLCodeBlockElement.highlight`.');
         return { markup: '' };
     };
+    /** Observer to monitor the editing of the content of this element. */
+    #observer = new MutationObserver(() => {
+        this.#observer.disconnect();
+        // Remove elements other than element with `code` as `slot` attribute value.
+        // The content of the `[slot="code"]` element will be passed to next rendering.
+        const slots = this.querySelectorAll('[slot]:not([slot="code"])');
+        for (const slot of slots) {
+            slot.remove();
+        }
+        this.#value = (this.textContent || this.getAttribute('value') || '').replace(/^\n/, '').replace(/\n$/, '');
+        this.#render();
+    });
     /** Slot elements for Shadow DOM content */
     #slots = (() => {
         /**
@@ -21,7 +33,7 @@ class HTMLCodeBlockElement extends HTMLElement {
          * @param id - The value of id attribute for the slot element
          * @return - The slot element
          */
-        const mkslot = (name, id) => {
+        const mkslot = (name, id = '') => {
             const slot = document.createElement('slot');
             slot.name = name;
             if (id) {
@@ -35,6 +47,22 @@ class HTMLCodeBlockElement extends HTMLElement {
             code: mkslot('code'),
         };
     })();
+    /**
+     * True when rendered at least once.
+     * The purpose of this flag is to available the operation the following usage.
+     *
+     * Specifically, this is the case where an element is rendered
+     * on the screen without ever using the value property.
+     *
+     * ```js
+     * const cb = document.createElement('code-block');
+     *
+     * cb.language = 'json';
+     * cb.textContent = '{"a": 100}';
+     * document.body.prepend(cb);
+     * ```
+     */
+    #rendered = false;
     /** Pure DOM content */
     #a11yName;
     /** Pure DOM content */
@@ -93,6 +121,7 @@ class HTMLCodeBlockElement extends HTMLElement {
         if (!this.parentNode) {
             return;
         }
+        this.#observer.disconnect();
         const src = (() => {
             if (/[^\n]\n$/.test(this.#value)) {
                 return `${this.#value}\n`;
@@ -113,6 +142,9 @@ class HTMLCodeBlockElement extends HTMLElement {
         this.append(this.#a11yName);
         this.append(this.#copyButton);
         this.append(this.#codeWrap);
+        this.#observer.observe(this, {
+            childList: true,
+        });
     };
     /** @return - Syntax Highlighted Source Code */
     get value() {
@@ -123,13 +155,19 @@ class HTMLCodeBlockElement extends HTMLElement {
         this.#render();
     }
     /**
-     * The name of code block
+     * The accessible name of code block
      * @return - The value of the label attribute
      */
     get label() {
         return this.#label;
     }
     set label(value) {
+        if (this.#label === value ||
+            (this.#label === '' &&
+                this.getAttribute('label') === null &&
+                value === null)) {
+            return;
+        }
         if (value === null) {
             this.#label = '';
             this.removeAttribute('label');
@@ -141,13 +179,19 @@ class HTMLCodeBlockElement extends HTMLElement {
         this.#render();
     }
     /**
-     * Language Mode
+     * Language name
      * @return - The value of the language attribute
      */
     get language() {
         return this.#language;
     }
     set language(value) {
+        if (this.#language === value ||
+            (this.#language === '' &&
+                this.getAttribute('language') === null &&
+                value === null)) {
+            return;
+        }
         if (value === null) {
             this.#language = '';
             this.removeAttribute('language');
@@ -159,13 +203,16 @@ class HTMLCodeBlockElement extends HTMLElement {
         this.#render();
     }
     /**
-     * Flag to display the UI
+     * The flag to display the UI
      * @return - With or without controls attribute
      * */
     get controls() {
         return this.#controls;
     }
     set controls(value) {
+        if (this.#controls === value) {
+            return;
+        }
         this.#controls = value;
         if (this.#controls) {
             this.setAttribute('controls', '');
@@ -200,6 +247,11 @@ class HTMLCodeBlockElement extends HTMLElement {
         }
     }
     connectedCallback() {
+        if (this.#rendered === false &&
+            this.#value === '') {
+            this.#value = this.textContent || '';
+        }
+        this.#rendered = true;
         this.#render();
     }
     constructor() {

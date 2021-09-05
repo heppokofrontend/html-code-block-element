@@ -25,19 +25,19 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     get value(): any;
     set value(src: any);
     /**
-     * The name of code block
+     * The accessible name of code block
      * @return - The value of the label attribute
      */
     get label(): any;
     set label(value: any);
     /**
-     * Language Mode
+     * Language name
      * @return - The value of the language attribute
      */
     get language(): any;
     set language(value: any);
     /**
-     * Flag to display the UI
+     * The flag to display the UI
      * @return - With or without controls attribute
      * */
     get controls(): boolean;
