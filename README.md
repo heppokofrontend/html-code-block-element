@@ -133,7 +133,10 @@ This package contains the global type files for React.
 - `React.CodeBlockHTMLAttributes`
 - `code-block` in `JSX.IntrinsicElements`
 
+\* CSS needs to be loaded separately.
+
 ```tsx
+// CodeBlock.tsx
 import React, {CodeBlockHTMLAttributes} from 'react';
 import '@heppokofrontend/html-code-block-element';
 
