@@ -1,9 +1,10 @@
 import HTMLCodeBlockElement from '../src/class/HTMLCodeBlockElement';
 
-HTMLCodeBlockElement.highlight = function hoge() {
+// Mock
+HTMLCodeBlockElement.highlight = function hoge(src) {
   return {
-    markup: 'Debug Text',
-  }
+    markup: src,
+  };
 };
 
 customElements.define('code-block', HTMLCodeBlockElement);
