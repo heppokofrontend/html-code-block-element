@@ -126,6 +126,24 @@ If you are using purely constructors:
 import HTMLCodeBlockElement from '@heppokofrontend/html-code-block-element/dist/class/HTMLCodeBlockElement';
 ```
 
+#### Use in React
+
+This package contains the global type files for React.
+　
+- `React.CodeBlockHTMLAttributes`
+- `code-block` in `JSX.IntrinsicElements`
+
+```tsx
+import React, {CodeBlockHTMLAttributes} from 'react';
+import '@heppokofrontend/html-code-block-element';
+
+export const CodeBlock: React.FC<CodeBlockHTMLAttributes<HTMLElement>> = ({children, ...props}) => {
+  return (
+    <code-block {...props}>{children}</code-block>
+  );
+};
+```
+
 #### Use as constructor
 
 Manual setup:
