@@ -213,6 +213,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       this.#label === value ||
       (
         this.#label === '' &&
+        this.getAttribute('label') === null &&
         value === null
       )
     ) {
@@ -243,6 +244,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       this.#language === value ||
       (
         this.#language === '' &&
+        this.getAttribute('language') === null &&
         value === null
       )
     ) {
