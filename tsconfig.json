@@ -8,11 +8,13 @@
     "pretty": true,
     "newLine": "lf",
     "outDir": "dist",
+    "esModuleInterop": true,
     "useDefineForClassFields": true,
     "types": [
       "jest",
       "node"
-    ]
+    ],
+    "jsx": "react-jsx"
   },
   "include": [
     "src/**/*.ts"
