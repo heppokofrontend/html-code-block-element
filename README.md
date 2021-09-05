@@ -113,17 +113,17 @@ The `customElements.define()` will also be included.
 
 ```javascript
 // For highlighting, `highlight.js/lib/common` will be used.
-import 'html-code-block-element';
+import '@heppokofrontend/html-code-block-element';
 // For highlighting, `highlight.js` will be used.
-import 'html-code-block-element/dist/index.all';
+import '@heppokofrontend/html-code-block-element/dist/index.all';
 // For highlighting, `highlight.js/lib/code` will be used.
-import 'html-code-block-element/dist/index.core';
+import '@heppokofrontend/html-code-block-element/dist/index.core';
 ```
 
 If you are using purely constructors:
 
 ```javascript
-import HTMLCodeBlockElement from 'html-code-block-element/dist/class/HTMLCodeBlockElement';
+import HTMLCodeBlockElement from '@heppokofrontend/html-code-block-element/dist/class/HTMLCodeBlockElement';
 ```
 
 #### Use as constructor
@@ -134,8 +134,8 @@ Manual setup:
 // 1. Import
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
-import HTMLCodeBlockElement from 'html-code-block-element/dist/class/HTMLCodeBlockElement';
-//  or import { HTMLCodeBlockElement } from 'html-code-block-element';
+import HTMLCodeBlockElement from '@heppokofrontend/html-code-block-element/dist/class/HTMLCodeBlockElement';
+//  or import { HTMLCodeBlockElement } from '@heppokofrontend/html-code-block-element';
 
 // Support JavaScript
 hljs.registerLanguage('javascript', javascript);
