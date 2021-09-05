@@ -16,6 +16,8 @@
     "@babel/preset-typescript": "^7.14.5",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.35",
+    "@types/react": "^17.0.20",
+    "@types/react-test-renderer": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
     "babel-loader": "^8.2.2",
@@ -25,6 +27,8 @@
     "jest": "^26.6.3",
     "jest-environment-jsdom-global": "^2.0.4",
     "license-webpack-plugin": "^2.3.20",
+    "react": "^17.0.2",
+    "react-test-renderer": "^17.0.2",
     "terser-webpack-plugin": "^5.1.4",
     "ts-jest": "^26.5.4",
     "ts-node": "^9.1.1",
@@ -41,7 +45,8 @@
   },
   "files": [
     "dist",
-    "lib"
+    "lib",
+    "types"
   ],
   "homepage": "https://github.com/heppokofrontend/html-code-block-element#readme",
   "keywords": [
