@@ -160,6 +160,8 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       return;
     }
 
+    this.#observer.disconnect();
+
     const src = (() => {
       if (/[^\n]\n$/.test(this.#value)) {
         return `${this.#value}\n`;
@@ -207,6 +209,16 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   }
 
   set label(value: any) {
+    if (
+      this.#label === value ||
+      (
+        this.#label === '' &&
+        value === null
+      )
+    ) {
+      return;
+    }
+
     if (value === null) {
       this.#label = '';
       this.removeAttribute('label');
@@ -227,6 +239,16 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   }
 
   set language(value: any) {
+    if (
+      this.#language === value ||
+      (
+        this.#language === '' &&
+        value === null
+      )
+    ) {
+      return;
+    }
+
     if (value === null) {
       this.#language = '';
       this.removeAttribute('language');
@@ -247,6 +269,10 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   }
 
   set controls(value: boolean) {
+    if (this.#controls === value) {
+      return;
+    }
+
     this.#controls = value;
 
     if (this.#controls) {
