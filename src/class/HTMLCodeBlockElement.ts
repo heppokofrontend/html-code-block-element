@@ -69,6 +69,23 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     };
   })();
 
+  /**
+   * True when rendered at least once.
+   * The purpose of this flag is to available the operation the following usage.
+   *
+   * Specifically, this is the case where an element is rendered
+   * on the screen without ever using the value property.
+   *
+   * ```js
+   * const cb = document.createElement('code-block');
+   *
+   * cb.language = 'json';
+   * cb.textContent = '{"a": 100}';
+   * document.body.prepend(cb);
+   * ```
+   */
+  #rendered = false;
+
   /** Pure DOM content */
   #a11yName: HTMLElement;
 
@@ -275,6 +292,14 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   }
 
   connectedCallback() {
+    if (
+      this.#rendered === false &&
+      this.#value === ''
+    ) {
+      this.#value = this.textContent || '';
+    }
+
+    this.#rendered = true;
     this.#render();
   }
 
