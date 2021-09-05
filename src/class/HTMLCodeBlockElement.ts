@@ -26,6 +26,23 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     return {markup: ''};
   };
 
+  /** Observer to monitor the editing of the content of this element. */
+  #observer = new MutationObserver(() => {
+    this.#observer.disconnect();
+
+    // Remove elements other than element with `code` as `slot` attribute value.
+    // The content of the `[slot="code"]` element will be passed to next rendering.
+    const slots = this.querySelectorAll('[slot]:not([slot="code"])');
+
+    for (const slot of slots) {
+      slot.remove();
+    }
+
+    this.#value = (this.textContent || this.getAttribute('value') || '').replace(/^\n/, '').replace(/\n$/, '');
+
+    this.#render();
+  });
+
   /** Slot elements for Shadow DOM content */
   #slots = (() => {
     /**
@@ -33,7 +50,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
      * @param id - The value of id attribute for the slot element
      * @return - The slot element
      */
-    const mkslot = (name: string, id?: string) => {
+    const mkslot = (name: string, id: string = '') => {
       const slot = document.createElement('slot');
 
       slot.name = name;
@@ -149,6 +166,9 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     this.append(this.#a11yName);
     this.append(this.#copyButton);
     this.append(this.#codeWrap);
+    this.#observer.observe(this, {
+      childList: true,
+    });
   }
 
   /** @return - Syntax Highlighted Source Code */
