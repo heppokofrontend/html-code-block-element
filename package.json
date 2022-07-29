@@ -86,7 +86,7 @@
     "prestart": "git config commit.template .gitmessage",
     "prettier": "prettier --write \"./**/*.{json,js,ts}\"",
     "start": "webpack serve --mode=production",
-    "test": "npm run tsc && npm run lint && npm run jest",
+    "test": "npm run tsc && npm run lint -- -- --quiet && npm run jest",
     "tsc": "tsc --noEmit",
     "tsc:build": "tsc && tsc-alias"
   }
