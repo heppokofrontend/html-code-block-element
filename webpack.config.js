@@ -12,7 +12,6 @@ const banner = (({name, version, author, license}) => {
 `;
 })(require('./package.json'));
 
-
 module.exports = {
   entry: {
     'html-code-block-element.core.min': './src/index.core.ts',
@@ -29,10 +28,12 @@ module.exports = {
     extensions: ['.ts', '.js'],
   },
   module: {
-    rules: [{
-      test: /\.(ts|js)$/,
-      loader: 'babel-loader',
-    }],
+    rules: [
+      {
+        test: /\.(ts|js)$/,
+        loader: 'babel-loader',
+      },
+    ],
   },
   devServer: {
     contentBase: __dirname,
