@@ -1,4 +1,3 @@
-name: test
 on:
   push:
     branches:
@@ -19,7 +18,7 @@ jobs:
         # platform: [ windows-latest, macOS-latest ]
         platform: [ubuntu-latest]
         node: ["16"]
-    name: test/node ${{ matrix.node }}/${{ matrix.platform }}
+    name: "Code check : ${{ matrix.node }}/${{ matrix.platform }}"
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v2
