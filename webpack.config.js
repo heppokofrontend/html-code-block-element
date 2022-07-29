@@ -35,11 +35,13 @@ module.exports = {
       },
     ],
   },
+  performance: {
+    maxEntrypointSize: 1200000,
+    maxAssetSize: 1200000,
+  },
   devServer: {
     open: true,
-    static: {
-      directory: path.resolve(__dirname, 'demo'),
-    },
+    static: [path.resolve(__dirname, 'demo'), path.resolve(__dirname, 'lib')],
   },
   plugins: [
     new webpack.BannerPlugin({
