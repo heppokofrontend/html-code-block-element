@@ -14,9 +14,9 @@ const banner = (({name, version, author, license}) => {
 
 module.exports = {
   entry: {
-    'html-code-block-element.core.min': './src/index.core.ts',
-    'html-code-block-element.common.min': './src/index.common.ts',
-    'html-code-block-element.all.min': './src/index.all.ts',
+    'html-code-block-element.core.min': './dist/index.core.js',
+    'html-code-block-element.common.min': './dist/index.common.js',
+    'html-code-block-element.all.min': './dist/index.all.js',
   },
   output: {
     path: path.join(__dirname, 'lib'),
@@ -36,7 +36,10 @@ module.exports = {
     ],
   },
   devServer: {
-    contentBase: __dirname,
+    open: true,
+    static: {
+      directory: path.resolve(__dirname, 'demo'),
+    },
   },
   plugins: [
     new webpack.BannerPlugin({
