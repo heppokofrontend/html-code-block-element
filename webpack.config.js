@@ -3,13 +3,13 @@ const TerserPlugin = require('terser-webpack-plugin');
 const {LicenseWebpackPlugin} = require('license-webpack-plugin');
 const path = require('path');
 const banner = (({name, version, author, license}) => {
-return `
+  return `
 /*!
  * ${name} v${version}
  * author: ${author}
  * license: ${license}
  */
-`
+`;
 })(require('./package.json'));
 
 
@@ -32,7 +32,7 @@ module.exports = {
     rules: [{
       test: /\.(ts|js)$/,
       loader: 'babel-loader',
-    }]
+    }],
   },
   devServer: {
     contentBase: __dirname,
@@ -43,7 +43,7 @@ module.exports = {
       raw: true,
       entryOnly: true,
     }),
-    new LicenseWebpackPlugin()
+    new LicenseWebpackPlugin(),
   ],
   optimization: {
     minimizer: [
@@ -51,8 +51,8 @@ module.exports = {
         extractComments: false,
         terserOptions: {
           keep_classnames: true,
-        }
-      })
+        },
+      }),
     ],
   },
 };

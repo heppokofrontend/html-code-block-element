@@ -18,7 +18,7 @@
     "@types/node": "^14.14.35",
     "@types/react": "^17.0.20",
     "@types/react-test-renderer": "^17.0.1",
-    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.28.5",
     "babel-loader": "^8.2.2",
     "eslint": "^7.32.0",
@@ -65,17 +65,21 @@
     "url": "git+https://github.com/heppokofrontend/code-block-element.git"
   },
   "scripts": {
-    "prebuild": "rm -rf dist && rm -rf lib",
-    "build": "npm run ts",
-    "postbuild": "npm run bundle",
-    "ts": "tsc",
+    "build": "npm run tsc",
     "bundle": "webpack --mode=production",
+    "deploy:demo": "gh-pages -d demo",
+    "eslint": "eslint \"./src/**/*.ts\" --fix",
+    "jest": "jest --coverage --verbose",
+    "jest:watch": "jest --watch --coverage --verbose",
+    "lint": "eslint ./",
+    "lint:fix": "eslint ./ --fix",
+    "postbuild": "npm run bundle",
+    "prebuild": "rm -rf dist && rm -rf lib",
     "prepublishOnly": "npm run build",
     "prestart": "git config commit.template .gitmessage",
     "start": "webpack serve --mode=production",
-    "test": "jest --coverage --verbose",
-    "test:watch": "jest --watch --coverage --verbose",
-    "deploy:demo": "gh-pages -d demo",
-    "eslint": "eslint \"./src/**/*.ts\" --fix"
+    "test": "tsc:check && npm run lint && npm run jest",
+    "tsc": "tsc",
+    "tsc:check": "tsc --noEmit"
   }
 }
