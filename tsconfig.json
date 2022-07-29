@@ -11,7 +11,11 @@
     "esModuleInterop": true,
     "useDefineForClassFields": true,
     "types": ["jest", "node"],
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "**/*.spec.ts"]

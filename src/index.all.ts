@@ -1,6 +1,6 @@
-import CustomElementConstructor from './class/HTMLCodeBlockElement';
-import {mkHighlightCallback} from './utils/highlight';
-import './utils/add-style';
+import CustomElementConstructor from '@/class/HTMLCodeBlockElement';
+import {mkHighlightCallback} from '@/utils/highlight';
+import '@/utils/add-style';
 
 const hljs = require('highlight.js');
 
