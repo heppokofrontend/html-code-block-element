@@ -68,7 +68,7 @@
     "url": "git+https://github.com/heppokofrontend/code-block-element.git"
   },
   "scripts": {
-    "build": "npm run tsc",
+    "build": "npm run tsc:build",
     "bundle": "webpack --mode=production",
     "clean": "run-script-os",
     "clean:default": "rm -rf dist && rm -rf lib",
@@ -86,7 +86,7 @@
     "prettier": "prettier --write \"./**/*.{json,js,ts}\"",
     "start": "webpack serve --mode=production",
     "test": "tsc:check && npm run lint && npm run jest",
-    "tsc": "tsc",
-    "tsc:check": "tsc --noEmit"
+    "tsc": "tsc --noEmit",
+    "tsc:build": "tsc"
   }
 }
