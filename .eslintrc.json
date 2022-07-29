@@ -24,5 +24,13 @@
       }
     ],
     "lines-between-class-members": ["error", "always"]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["./webpack.config.js"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ]
 }
