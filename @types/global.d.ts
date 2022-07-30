@@ -1,5 +1,8 @@
-import 'react';
+import * as React from 'react';
+
 declare global {
+  export type Hoge = 'hoge' | 'piyo';
+
   // A type for the properties of a function component
   namespace React {
     interface CodeBlockHTMLAttributes<T> extends HTMLAttributes<T> {
