@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../types/global';
 import renderer from 'react-test-renderer';
 
 describe('React', () => {
