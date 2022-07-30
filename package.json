@@ -50,7 +50,7 @@
   "files": [
     "dist",
     "lib",
-    "types"
+    "@types"
   ],
   "homepage": "https://github.com/heppokofrontend/html-code-block-element#readme",
   "keywords": [
