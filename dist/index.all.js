@@ -4,10 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HTMLCodeBlockElement = void 0;
+const highlight_js_1 = __importDefault(require("highlight.js"));
 const HTMLCodeBlockElement_1 = __importDefault(require("./class/HTMLCodeBlockElement"));
-const highlight_1 = require("./utils/highlight");
-require("./utils/add-style");
-const hljs = require('highlight.js');
-HTMLCodeBlockElement_1.default.highlight = highlight_1.mkHighlightCallback(hljs);
+const createHighlightCallback_1 = require("./utils/createHighlightCallback");
+require("./effects/add-style");
+HTMLCodeBlockElement_1.default.highlight = (0, createHighlightCallback_1.createHighlightCallback)(highlight_js_1.default);
 customElements.define('code-block', HTMLCodeBlockElement_1.default);
 exports.HTMLCodeBlockElement = HTMLCodeBlockElement_1.default;

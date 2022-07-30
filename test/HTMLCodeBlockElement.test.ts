@@ -1,7 +1,7 @@
 import HTMLCodeBlockElement from '../src/class/HTMLCodeBlockElement';
 
 // Mock
-HTMLCodeBlockElement.highlight = function hoge(src) {
+HTMLCodeBlockElement.highlight = function hoge({src}) {
   return {
     markup: src,
   };
@@ -88,10 +88,10 @@ describe('Render', () => {
 
   // test('value', () => {
   //   const value = `
-// a
-// b
-// c
-// `;
+  // a
+  // b
+  // c
+  // `;
 
   //   expect(cb.value).toBe('abc');
   //   cb.value = 'abcd';

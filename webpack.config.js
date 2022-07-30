@@ -3,21 +3,20 @@ const TerserPlugin = require('terser-webpack-plugin');
 const {LicenseWebpackPlugin} = require('license-webpack-plugin');
 const path = require('path');
 const banner = (({name, version, author, license}) => {
-return `
+  return `
 /*!
  * ${name} v${version}
  * author: ${author}
  * license: ${license}
  */
-`
+`;
 })(require('./package.json'));
-
 
 module.exports = {
   entry: {
-    'html-code-block-element.core.min': './src/index.core.ts',
-    'html-code-block-element.common.min': './src/index.common.ts',
-    'html-code-block-element.all.min': './src/index.all.ts',
+    'html-code-block-element.core.min': './dist/index.core.js',
+    'html-code-block-element.common.min': './dist/index.common.js',
+    'html-code-block-element.all.min': './dist/index.all.js',
   },
   output: {
     path: path.join(__dirname, 'lib'),
@@ -29,13 +28,20 @@ module.exports = {
     extensions: ['.ts', '.js'],
   },
   module: {
-    rules: [{
-      test: /\.(ts|js)$/,
-      loader: 'babel-loader',
-    }]
+    rules: [
+      {
+        test: /\.(ts|js)$/,
+        loader: 'babel-loader',
+      },
+    ],
+  },
+  performance: {
+    maxEntrypointSize: 1200000,
+    maxAssetSize: 1200000,
   },
   devServer: {
-    contentBase: __dirname,
+    open: true,
+    static: [path.resolve(__dirname, 'demo'), path.resolve(__dirname, 'lib')],
   },
   plugins: [
     new webpack.BannerPlugin({
@@ -43,7 +49,7 @@ module.exports = {
       raw: true,
       entryOnly: true,
     }),
-    new LicenseWebpackPlugin()
+    new LicenseWebpackPlugin(),
   ],
   optimization: {
     minimizer: [
@@ -51,8 +57,8 @@ module.exports = {
         extractComments: false,
         terserOptions: {
           keep_classnames: true,
-        }
-      })
+        },
+      }),
     ],
   },
 };

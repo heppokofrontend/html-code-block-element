@@ -1,6 +1,5 @@
-import * as React from 'react';
-import '../types/global';
-import renderer from 'react-test-renderer';
+import * as renderer from 'react-test-renderer';
+import '../@types/global';
 
 describe('React', () => {
   test('Simple', () => {

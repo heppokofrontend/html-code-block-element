@@ -1,0 +1,36 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["google", "plugin:@typescript-eslint/recommended", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "max-len": "off",
+    "no-unused-vars": "off",
+    "no-invalid-this": "off",
+    "require-jsdoc": "off",
+    "valid-jsdoc": [
+      "error",
+      {
+        "requireReturn": false,
+        "requireParamType": false,
+        "requireReturnType": false
+      }
+    ],
+    "lines-between-class-members": ["error", "always"]
+  },
+  "overrides": [
+    {
+      "files": ["./webpack.config.js"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ]
+}

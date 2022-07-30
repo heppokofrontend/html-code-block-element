@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mkHighlightCallback = void 0;
+exports.createHighlightCallback = void 0;
 /**
  * Callback maker for highlight.js
  * @param endgine - A library for performing syntax highlighting.
  * @return - A function for HTMLCodeBlockElement.highlight
  */
-const mkHighlightCallback = (endgine) => (src, options) => {
+const createHighlightCallback = (endgine) => ({ src, options }) => {
     const hljs = endgine;
     if (
     // Verifying the existence of a language
@@ -20,4 +20,4 @@ const mkHighlightCallback = (endgine) => (src, options) => {
         markup: hljs.highlightAuto(src).value,
     };
 };
-exports.mkHighlightCallback = mkHighlightCallback;
+exports.createHighlightCallback = createHighlightCallback;
