@@ -1,29 +1,58 @@
-export namespace Endgine {
-  type Options = {
+export type EndgineProps = {
+  src: string;
+  options?: {
     /** Language Mode Name */
-    language: string,
-  }
-
-  type Result = {
-    markup: string,
+    language: string;
   };
+};
+export type EndgineFunction = (props: EndgineProps) => {
+  markup: string;
+};
 
-  export type callback = (src: string, options?: Options) => Result;
-}
-
-/** The HTML element for highlighting code fragments. */
 export default class HTMLCodeBlockElement extends HTMLElement {
+  static #defaultEndgine: EndgineFunction = ({src}) => ({
+    markup: src,
+  });
+
+  static #endgine = HTMLCodeBlockElement.#defaultEndgine;
+
   /**
    * Returns the result of highlighting the received source code string.
    * Before running `customElements.define()`,
    * you need to assign it directly to `HTMLCodeBlockElement.highlight`.
-   * @param src - Source code string for highlight
-   * @param options - Option for highlight
-   * @return - Object of the highlight result
    */
-  static highlight: Endgine.callback = (src: string, options: any) => {
-    throw new TypeError('The syntax highlighting engine is not set to `HTMLCodeBlockElement.highlight`.');
-    return {markup: ''};
+  static get highlight(): EndgineFunction {
+    const endgine = HTMLCodeBlockElement.#endgine;
+
+    if (endgine === HTMLCodeBlockElement.#defaultEndgine) {
+      throw new TypeError(
+        'The syntax highlighting engine is not set to `HTMLCodeBlockElement.highlight`.'
+      );
+    }
+
+    return endgine;
+  }
+
+  static set highlight(endgine: EndgineFunction) {
+    HTMLCodeBlockElement.#endgine = endgine;
+  }
+
+  static #createSlotElement = ({
+    name,
+    id = '',
+  }: {
+    name: string;
+    id?: string;
+  }): HTMLSlotElement => {
+    const slot = document.createElement('slot');
+
+    slot.name = name;
+
+    if (id) {
+      slot.id = id;
+    }
+
+    return slot;
   };
 
   /** Observer to monitor the editing of the content of this element. */
@@ -38,36 +67,19 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       slot.remove();
     }
 
-    this.#value = (this.textContent || this.getAttribute('value') || '').replace(/^\n/, '').replace(/\n$/, '');
+    this.#value = (this.textContent || this.getAttribute('value') || '')
+      .replace(/^\n/, '')
+      .replace(/\n$/, '');
 
     this.#render();
   });
 
   /** Slot elements for Shadow DOM content */
-  #slots = (() => {
-    /**
-     * @param name - The value of name attribute for the slot element
-     * @param id - The value of id attribute for the slot element
-     * @return - The slot element
-     */
-    const mkslot = (name: string, id: string = '') => {
-      const slot = document.createElement('slot');
-
-      slot.name = name;
-
-      if (id) {
-        slot.id = id;
-      }
-
-      return slot;
-    };
-
-    return {
-      name: mkslot('name', 'name'),
-      copyButton: mkslot('copy-button'),
-      code: mkslot('code'),
-    };
-  })();
+  #slots = {
+    name: HTMLCodeBlockElement.#createSlotElement({name: 'name', id: 'name'}),
+    copyButton: HTMLCodeBlockElement.#createSlotElement({name: 'copy-button'}),
+    code: HTMLCodeBlockElement.#createSlotElement({name: 'code'}),
+  };
 
   /**
    * True when rendered at least once.
@@ -99,16 +111,16 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   #codeWrap: HTMLPreElement;
 
   /** Actual value of the accessor `value` */
-  #value: string = '';
+  #value = '';
 
   /** Actual value of the accessor `label` */
-  #label: string = '';
+  #label = '';
 
   /** Actual value of the accessor `language` */
-  #language: string = '';
+  #language = '';
 
   /** Actual value of the accessor `controls` */
-  #controls: boolean = false;
+  #controls = false;
 
   /** Click event handler of copy button */
   #onClickButton = (() => {
@@ -151,11 +163,8 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     };
   })();
 
-  /**
-   * Outputs the resulting syntax-highlighted markup to the DOM.
-   * @param this - instance
-   */
-  #render = function(this: HTMLCodeBlockElement) {
+  /** Outputs the resulting syntax-highlighted markup to the DOM. */
+  #render(): void {
     if (!this.parentNode) {
       return;
     }
@@ -171,8 +180,11 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     })();
 
     /** The resulting syntax-highlighted markup */
-    const {markup} = HTMLCodeBlockElement.highlight(src, {
-      language: this.#language,
+    const {markup} = HTMLCodeBlockElement.highlight({
+      src,
+      options: {
+        language: this.#language,
+      },
     });
 
     // initialize
@@ -191,11 +203,11 @@ export default class HTMLCodeBlockElement extends HTMLElement {
   }
 
   /** @return - Syntax Highlighted Source Code */
-  get value() {
+  get value(): string {
     return this.#value;
   }
 
-  set value(src: any) {
+  set value(src: unknown) {
     this.#value = String(src);
     this.#render();
   }
@@ -204,18 +216,16 @@ export default class HTMLCodeBlockElement extends HTMLElement {
    * The accessible name of code block
    * @return - The value of the label attribute
    */
-  get label() {
+  get label(): string {
     return this.#label;
   }
 
-  set label(value: any) {
+  set label(value: unknown) {
     if (
       this.#label === value ||
-      (
-        this.#label === '' &&
+      (this.#label === '' &&
         this.getAttribute('label') === null &&
-        value === null
-      )
+        value === null)
     ) {
       return;
     }
@@ -235,18 +245,16 @@ export default class HTMLCodeBlockElement extends HTMLElement {
    * Language name
    * @return - The value of the language attribute
    */
-  get language() {
+  get language(): string {
     return this.#language;
   }
 
-  set language(value: any) {
+  set language(value: unknown) {
     if (
       this.#language === value ||
-      (
-        this.#language === '' &&
+      (this.#language === '' &&
         this.getAttribute('language') === null &&
-        value === null
-      )
+        value === null)
     ) {
       return;
     }
@@ -266,7 +274,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
    * The flag to display the UI
    * @return - With or without controls attribute
    * */
-  get controls() {
+  get controls(): boolean {
     return this.#controls;
   }
 
@@ -286,19 +294,15 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     this.#render();
   }
 
-  static get observedAttributes() {
-    return [
-      'label',
-      'language',
-      'controls',
-    ];
+  static get observedAttributes(): string[] {
+    return ['label', 'language', 'controls'];
   }
 
   attributeChangedCallback(
-      attrName: string,
-      oldValue: string,
-      newValue: string,
-  ) {
+    attrName: string,
+    oldValue: string,
+    newValue: string
+  ): void {
     if (oldValue === newValue) {
       return;
     }
@@ -319,11 +323,8 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     }
   }
 
-  connectedCallback() {
-    if (
-      this.#rendered === false &&
-      this.#value === ''
-    ) {
+  connectedCallback(): void {
+    if (this.#rendered === false && this.#value === '') {
       this.#value = this.textContent || '';
     }
 
@@ -374,7 +375,6 @@ export default class HTMLCodeBlockElement extends HTMLElement {
       return pre;
     })();
 
-
     /* -------------------------------------------------------------------------
      * Setup Shadow DOM contents
      * ---------------------------------------------------------------------- */
@@ -407,11 +407,12 @@ export default class HTMLCodeBlockElement extends HTMLElement {
     shadowRoot.append(a11yNamePrefix);
     shadowRoot.append(container);
 
-
     /* -------------------------------------------------------------------------
      * Hard private props initialize
      * ---------------------------------------------------------------------- */
-    this.#value = (this.textContent || '').replace(/^\n/, '').replace(/\n$/, '');
+    this.#value = (this.textContent || '')
+      .replace(/^\n/, '')
+      .replace(/\n$/, '');
     this.#label = a11yName.textContent || '';
     this.#language = this.getAttribute('language') || '';
     this.#controls = this.getAttribute('controls') !== null;

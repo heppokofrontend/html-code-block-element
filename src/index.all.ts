@@ -1,9 +1,9 @@
 import hljs from 'highlight.js';
 import CustomElementConstructor from '@/class/HTMLCodeBlockElement';
-import {mkHighlightCallback} from '@/utils/highlight';
-import '@/utils/add-style';
+import {createHighlightCallback} from '@/utils/createHighlightCallback';
+import '@/effects/add-style';
 
-CustomElementConstructor.highlight = mkHighlightCallback(hljs);
+CustomElementConstructor.highlight = createHighlightCallback(hljs);
 customElements.define('code-block', CustomElementConstructor);
 
 export const HTMLCodeBlockElement = CustomElementConstructor;
