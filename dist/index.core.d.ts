@@ -1,3 +1,3 @@
 import CustomElementConstructor from './class/HTMLCodeBlockElement';
-import './utils/add-style';
+import './effects/add-style';
 export declare const HTMLCodeBlockElement: typeof CustomElementConstructor;
