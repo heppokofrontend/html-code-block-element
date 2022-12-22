@@ -29,6 +29,16 @@ describe('Props', () => {
     expect(cbElm.getAttribute('controls')).toBeNull();
   });
 
+  test('With notrim attributes', () => {
+    const cbElm = new HTMLCodeBlockElement();
+
+    expect(cbElm.getAttribute('notrim')).toBeNull();
+    cbElm.notrim = true;
+    expect(cbElm.getAttribute('notrim')).toBe('');
+    cbElm.notrim = false;
+    expect(cbElm.getAttribute('notrim')).toBeNull();
+  });
+
   test('With label attributes', () => {
     const cbElm = new HTMLCodeBlockElement();
 
@@ -82,8 +92,6 @@ describe('Render', () => {
     expect(cb.children[2].children[0].tagName.toLowerCase()).toBe('code');
   });
 
-  // ! JEST上でMutationObserver.disconnect()がうまく動作しないため
-  // ! テストを省略する
   // TODO: Write tests of MutationObserver
 
   // test('value', () => {
