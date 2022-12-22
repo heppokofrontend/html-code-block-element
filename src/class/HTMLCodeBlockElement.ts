@@ -5,6 +5,7 @@ export type EndgineProps = {
     language: string;
   };
 };
+
 export type EndgineFunction = (props: EndgineProps) => {
   markup: string;
 };
