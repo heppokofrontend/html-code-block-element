@@ -1,6 +1,6 @@
 import HTMLCodeBlockElement from '../src/class/HTMLCodeBlockElement';
 
-// Mock
+// highlight endgine mock
 HTMLCodeBlockElement.highlight = function hoge({src}) {
   return {
     markup: src,
