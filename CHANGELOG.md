@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The test of `value` props
 - The test of `textContent` props
 
+## [2.0.0] - 2022-12-22
+
+- Update node version
+- Update README.md
+- Update demo HTML
+- Add `notrim` attribute
+- Add prettier
+
 ## [1.1.1] - 2021-09-06
 
 ### Fixed
@@ -21,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fix a few code according to the coding rules.
-- Fix the bug of ignoring `null` when the `value` of `label` and `language`  are empty.
+- Fix the bug of ignoring `null` when the `value` of `label` and `language` are empty.
 
 ### Added
 
