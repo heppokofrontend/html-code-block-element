@@ -4,6 +4,8 @@ on:
       - main
       - feature/*
       - release/*
+    paths:
+      - '**'
   pull_request:
     paths:
       - '!*.md'
