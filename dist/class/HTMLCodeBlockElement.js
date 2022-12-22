@@ -80,6 +80,8 @@ class HTMLCodeBlockElement extends HTMLElement {
     #language = '';
     /** Actual value of the accessor `controls` */
     #controls = false;
+    /** Actual value of the accessor `notrim` */
+    #notrim = false;
     /** Click event handler of copy button */
     #onClickButton = (() => {
         let key = -1;
@@ -120,12 +122,7 @@ class HTMLCodeBlockElement extends HTMLElement {
             return;
         }
         this.#observer.disconnect();
-        const src = (() => {
-            if (/[^\n]\n$/.test(this.#value)) {
-                return `${this.#value}\n`;
-            }
-            return this.#value;
-        })();
+        const src = this.#notrim ? this.#value : this.#value.trim();
         /** The resulting syntax-highlighted markup */
         const { markup } = HTMLCodeBlockElement.highlight({
             src,
@@ -223,8 +220,21 @@ class HTMLCodeBlockElement extends HTMLElement {
         }
         this.#render();
     }
+    set notrim(value) {
+        if (this.#notrim === value) {
+            return;
+        }
+        this.#notrim = value;
+        if (this.#notrim) {
+            this.setAttribute('notrim', '');
+        }
+        else {
+            this.removeAttribute('notrim');
+        }
+        this.#render();
+    }
     static get observedAttributes() {
-        return ['label', 'language', 'controls'];
+        return ['label', 'language', 'controls', 'notrim'];
     }
     attributeChangedCallback(attrName, oldValue, newValue) {
         if (oldValue === newValue) {
@@ -240,6 +250,7 @@ class HTMLCodeBlockElement extends HTMLElement {
                 break;
             // boolean
             case 'controls':
+            case 'notrim':
                 this[attrName] = typeof newValue === 'string';
         }
     }
@@ -318,6 +329,7 @@ class HTMLCodeBlockElement extends HTMLElement {
         this.#label = a11yName.textContent || '';
         this.#language = this.getAttribute('language') || '';
         this.#controls = this.getAttribute('controls') !== null;
+        this.#notrim = this.getAttribute('notrim') !== null;
         this.#a11yName = a11yName;
         this.#copyButton = copyButton;
         this.#codeBlock = codeElm;

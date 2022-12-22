@@ -38,6 +38,7 @@ export default class HTMLCodeBlockElement extends HTMLElement {
      * */
     get controls(): boolean;
     set controls(value: boolean);
+    set notrim(value: boolean);
     static get observedAttributes(): string[];
     attributeChangedCallback(attrName: string, oldValue: string, newValue: string): void;
     connectedCallback(): void;
