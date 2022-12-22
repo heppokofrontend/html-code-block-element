@@ -5,7 +5,9 @@ on:
       - feature/*
       - release/*
     paths:
-      - '**'
+      - '**.ts'
+      - '**.json'
+      - '**.yml'
   pull_request:
     paths:
       - '!*.md'
