@@ -1,0 +1,22 @@
+jobs:
+  test:
+    strategy:
+      matrix:
+        # platform: [ windows-latest, macOS-latest ]
+        platform: [ubuntu-latest]
+        node: ['16']
+    name: Code check on Node.${{ matrix.node }}/${{ matrix.platform }}
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: npm ci
+      - run: npm run deploy:demo
+      - uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: af882de8052c9e436d8e7980bec9c61773f9a9e8cf327b27e97832bfa9628f11
+        with:
+          coverageLocations: |
+            ${{github.workspace}}/coverage/lcov.info:lcov
