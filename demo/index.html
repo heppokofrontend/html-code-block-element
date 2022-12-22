@@ -33,6 +33,26 @@
       text-align: center;
       border-top: 1px solid #000;
     }
+
+    /* Loading Style  */
+    code-block {
+      font-family: Consolas, Monaco, monospace;
+      display: block;
+      overflow-x: auto;
+      font-size: 80%;
+      background: #fff;
+    }
+    code-block:not(:has(textarea)):not(:has(pre)) {
+      padding: 1em;
+    }
+    code-block textarea {
+      box-sizing: border-box;
+      border: 0;
+      width: 100%;
+      padding: 1em;
+      font-size: inherit;
+      font-family: inherit;
+    }
   </style>
   <!-- <script src="../lib/html-code-block-element.common.min.js" defer></script> -->
   <!-- <script src="https://cdn.jsdelivr.net/npm/@heppokofrontend/html-code-block-element/lib/html-code-block-element.core.min.js" defer></script> -->
@@ -44,6 +64,31 @@
 <h1>HTMLCodeBlockElement</h1>
 
 <p>Code block custom element with syntax highlighting and copy button.</p>
+
+<p>It is recommended that the following CSS be loaded for before JavaScript works</p>
+
+<code-block language="css">
+<textarea>
+code-block {
+  font-family: Consolas, Monaco, monospace;
+  display: block;
+  overflow-x: auto;
+  font-size: 80%;
+  background: #fff;
+}
+code-block:not(:has(textarea)):not(:has(pre)) {
+  padding: 1em;
+}
+code-block textarea {
+  box-sizing: border-box;
+  border: 0;
+  width: 100%;
+  padding: 1em;
+  font-size: inherit;
+  font-family: inherit;
+}
+</textarea>
+</code-block>
 
 <h2>With escaped text</h2>
 
@@ -81,9 +126,9 @@
 
 <h2>Playground</h2>
 
-<code-block language="js" id="cb">// this is placeholder</code-block>
+<code-block language="js" id="cb">// this is placeholder (code-block#cb)</code-block>
 
-<p>Let's run these JS on this page.</p>
+<p>Let's paste these in conosole to run JS on this page.</p>
 
 <code-block language="js" label="Example: HTML" controls>
 <textarea>
@@ -92,26 +137,31 @@ cb.value = `<div>
   <h2>Hello world</h2>
 
   <p class="example">This is sample markup.</p>
-</div>`;</textarea>
+</div>`;
+</textarea>
 </code-block>
 
 <code-block language="js" label="Example: CSS" controls>
-<textarea>cb.language = 'css';
+<textarea>
+cb.language = 'css';
 cb.value = `body {
   /* This is sample css */
   font-size: 100px;
-}`;</textarea>
+}`;
+</textarea>
 </code-block>
 
 <code-block language="js" label="Example: JSON" controls>
-<textarea>cb.language = 'json';
+<textarea>
+cb.language = 'json';
 cb.value = `{
   "items": [
     100,
     null,
     "This is sample json"
   ]
-}`;</textarea>
+}`;
+</textarea>
 </code-block>
 </main>
 <footer>

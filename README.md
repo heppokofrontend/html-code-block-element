@@ -1,7 +1,7 @@
 # &lt;code-block&gt;
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE) [![Published on NPM](https://img.shields.io/npm/v/@heppokofrontend/html-code-block-element.svg)](https://www.npmjs.com/package/@heppokofrontend/html-code-block-element) [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/heppokofrontend/html-code-block-element) [![](https://data.jsdelivr.com/v1/package/npm/@heppokofrontend/html-code-block-element/badge)](https://www.jsdelivr.com/package/npm/@heppokofrontend/html-code-block-element) [![Maintainability](https://api.codeclimate.com/v1/badges/38a4e238adb7401844ba/maintainability)](https://codeclimate.com/github/heppokofrontend/html-code-block-element/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/38a4e238adb7401844ba/test_coverage)](https://codeclimate.com/github/heppokofrontend/html-code-block-element/test_coverage) [![Known Vulnerabilities](https://snyk.io/test/npm/@heppokofrontend/html-code-block-element/badge.svg)](https://snyk.io/test/npm/@heppokofrontend/html-code-block-element)
- [![@heppokofrontend/html-code-block-element](https://snyk.io/advisor/npm-package/@heppokofrontend/html-code-block-element/badge.svg)](https://snyk.io/advisor/npm-package/@heppokofrontend/html-code-block-element)
+[![@heppokofrontend/html-code-block-element](https://snyk.io/advisor/npm-package/@heppokofrontend/html-code-block-element/badge.svg)](https://snyk.io/advisor/npm-package/@heppokofrontend/html-code-block-element)
 
 Code block custom element with syntax highlighting and copy button.
 
@@ -22,9 +22,10 @@ DEMO: <https://heppokofrontend.github.io/html-code-block-element/>
 </custom-element-demo>
 ```
 -->
+
 ```html
 <code-block language="html" label="example.html" controls>
-&lt;script&gt;console.log(true);&lt;/script&gt;
+  &lt;script&gt;console.log(true);&lt;/script&gt;
 </code-block>
 ```
 
@@ -35,8 +36,14 @@ It can be used by loading html-code-block-element.common.min.js and one CSS them
 The highlight.js style is available on CDN. You can also download the JS and CSS from the respective repositories and load them into your page.
 
 ```html
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/vs.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/@heppokofrontend/html-code-block-element/lib/html-code-block-element.common.min.js" defer></script>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/vs.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/npm/@heppokofrontend/html-code-block-element/lib/html-code-block-element.common.min.js"
+  defer
+></script>
 ```
 
 There are three versions of this library available.
@@ -45,14 +52,13 @@ There are three versions of this library available.
 - `html-code-block-element.all.min.js` - One that enables [all languages](https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md) supported by highligh.js.
 - `html-code-block-element.core.min.js` - For developers who want to do their own `hljs.registerLanguage()`.
 
-
 #### Example
 
 **Note:** The textarea element cannot be included in the content of the textarea element. If you want to include it, please use HTML Entity for the tag.
 
 ```html
 <code-block language="html" label="example.html" controls>
-<textarea><script>console.log(true);</script></textarea>
+  <textarea><script>console.log(true);</script></textarea>
 </code-block>
 ```
 
@@ -60,7 +66,7 @@ or
 
 ```html
 <code-block language="html" label="example.html" controls>
-&lt;script&gt;console.log(true);&lt;/script&gt;
+  &lt;script&gt;console.log(true);&lt;/script&gt;
 </code-block>
 ```
 
@@ -78,6 +84,7 @@ or
 - **Content attributes:**
   - [Global attributes](https://html.spec.whatwg.org/multipage/dom.html#global-attributes)
   - `controls` - Show controls
+  - `notrim` - Does't remove whitespace from both ends of a source
   - `label` - Give the code block a unique name. If omitted, it will always have the accessible name "Code Block".
   - `language` - Language name of the code. If omitted, it will be detected automatically.
 - **Accessibility considerations:**
@@ -93,6 +100,7 @@ interface HTMLCodeBlockElement : HTMLElement {
   [HTMLConstructor] constructor();
 
   [CEReactions] attribute boolean controls;
+  [CEReactions] attribute boolean notrim;
   [CEReactions] attribute DOMString label;
   [CEReactions] attribute DOMString language;
   [CEReactions] attribute DOMString value;
@@ -129,7 +137,7 @@ import HTMLCodeBlockElement from '@heppokofrontend/html-code-block-element/dist/
 #### Use in React
 
 This package contains the global type files for React.
-　
+
 - `React.CodeBlockHTMLAttributes`
 - `code-block` in `JSX.IntrinsicElements`
 
@@ -139,14 +147,15 @@ This package contains the global type files for React.
 // CodeBlock.tsx
 import React, {useEffect, CodeBlockHTMLAttributes} from 'react';
 
-export const CodeBlock: React.FC<CodeBlockHTMLAttributes<HTMLElement>> = ({children, ...props}) => {
+export const CodeBlock: React.FC<CodeBlockHTMLAttributes<HTMLElement>> = ({
+  children,
+  ...props
+}) => {
   useEffect(() => {
     import(`@heppokofrontend/html-code-block-element`);
   });
 
-  return (
-    <code-block {...props}>{children}</code-block>
-  );
+  return <code-block {...props}>{children}</code-block>;
 };
 ```
 
@@ -164,7 +173,6 @@ import HTMLCodeBlockElement from '@heppokofrontend/html-code-block-element/dist/
 // Support JavaScript
 hljs.registerLanguage('javascript', javascript);
 
-
 // 2. Set endgine
 /**
  * Example: Callback to be called internally
@@ -178,10 +186,7 @@ HTMLCodeBlockElement.highlight = function (src, options) {
     options?.language &&
     hljs.getLanguage(options.language)
   ) {
-    const {value} = hljs.highlight(
-      src,
-      options,
-    );
+    const {value} = hljs.highlight(src, options);
 
     return {
       markup: value,
@@ -191,16 +196,13 @@ HTMLCodeBlockElement.highlight = function (src, options) {
   return {
     markup: hljs.highlightAuto(src).value,
   };
-}
-
+};
 
 // 3. Define
 customElements.define('code-block', HTMLCodeBlockElement);
 
-
 // 4. Make
 const cbElm = new HTMLCodeBlockElement();
-
 
 // 5. Assign
 cbElm.language = 'javascript';
@@ -208,7 +210,6 @@ cbElm.label = 'your label';
 cbElm.value = `const hoge = true;
 
 console.log(hoge);`;
-
 
 // 6. Append
 document.body.append(cbElm); // Render at the same time

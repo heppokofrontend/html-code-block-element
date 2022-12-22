@@ -1,18 +1,32 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/** The HTML element for highlighting code fragments. */
 class HTMLCodeBlockElement extends HTMLElement {
+    static #defaultEndgine = ({ src }) => ({
+        markup: src,
+    });
+    static #endgine = HTMLCodeBlockElement.#defaultEndgine;
     /**
      * Returns the result of highlighting the received source code string.
      * Before running `customElements.define()`,
      * you need to assign it directly to `HTMLCodeBlockElement.highlight`.
-     * @param src - Source code string for highlight
-     * @param options - Option for highlight
-     * @return - Object of the highlight result
      */
-    static highlight = (src, options) => {
-        throw new TypeError('The syntax highlighting engine is not set to `HTMLCodeBlockElement.highlight`.');
-        return { markup: '' };
+    static get highlight() {
+        const endgine = HTMLCodeBlockElement.#endgine;
+        if (endgine === HTMLCodeBlockElement.#defaultEndgine) {
+            throw new TypeError('The syntax highlighting engine is not set to `HTMLCodeBlockElement.highlight`.');
+        }
+        return endgine;
+    }
+    static set highlight(endgine) {
+        HTMLCodeBlockElement.#endgine = endgine;
+    }
+    static #createSlotElement = ({ name, id = '', }) => {
+        const slot = document.createElement('slot');
+        slot.name = name;
+        if (id) {
+            slot.id = id;
+        }
+        return slot;
     };
     /** Observer to monitor the editing of the content of this element. */
     #observer = new MutationObserver(() => {
@@ -23,30 +37,17 @@ class HTMLCodeBlockElement extends HTMLElement {
         for (const slot of slots) {
             slot.remove();
         }
-        this.#value = (this.textContent || this.getAttribute('value') || '').replace(/^\n/, '').replace(/\n$/, '');
+        this.#value = (this.textContent || this.getAttribute('value') || '')
+            .replace(/^\n/, '')
+            .replace(/\n$/, '');
         this.#render();
     });
     /** Slot elements for Shadow DOM content */
-    #slots = (() => {
-        /**
-         * @param name - The value of name attribute for the slot element
-         * @param id - The value of id attribute for the slot element
-         * @return - The slot element
-         */
-        const mkslot = (name, id = '') => {
-            const slot = document.createElement('slot');
-            slot.name = name;
-            if (id) {
-                slot.id = id;
-            }
-            return slot;
-        };
-        return {
-            name: mkslot('name', 'name'),
-            copyButton: mkslot('copy-button'),
-            code: mkslot('code'),
-        };
-    })();
+    #slots = {
+        name: HTMLCodeBlockElement.#createSlotElement({ name: 'name', id: 'name' }),
+        copyButton: HTMLCodeBlockElement.#createSlotElement({ name: 'copy-button' }),
+        code: HTMLCodeBlockElement.#createSlotElement({ name: 'code' }),
+    };
     /**
      * True when rendered at least once.
      * The purpose of this flag is to available the operation the following usage.
@@ -79,6 +80,8 @@ class HTMLCodeBlockElement extends HTMLElement {
     #language = '';
     /** Actual value of the accessor `controls` */
     #controls = false;
+    /** Actual value of the accessor `notrim` */
+    #notrim = false;
     /** Click event handler of copy button */
     #onClickButton = (() => {
         let key = -1;
@@ -113,24 +116,19 @@ class HTMLCodeBlockElement extends HTMLElement {
             }, 1500);
         };
     })();
-    /**
-     * Outputs the resulting syntax-highlighted markup to the DOM.
-     * @param this - instance
-     */
-    #render = function () {
+    /** Outputs the resulting syntax-highlighted markup to the DOM. */
+    #render() {
         if (!this.parentNode) {
             return;
         }
         this.#observer.disconnect();
-        const src = (() => {
-            if (/[^\n]\n$/.test(this.#value)) {
-                return `${this.#value}\n`;
-            }
-            return this.#value;
-        })();
+        const src = this.#notrim ? this.#value : this.#value.trim();
         /** The resulting syntax-highlighted markup */
-        const { markup } = HTMLCodeBlockElement.highlight(src, {
-            language: this.#language,
+        const { markup } = HTMLCodeBlockElement.highlight({
+            src,
+            options: {
+                language: this.#language,
+            },
         });
         // initialize
         this.textContent = '';
@@ -145,7 +143,7 @@ class HTMLCodeBlockElement extends HTMLElement {
         this.#observer.observe(this, {
             childList: true,
         });
-    };
+    }
     /** @return - Syntax Highlighted Source Code */
     get value() {
         return this.#value;
@@ -222,12 +220,21 @@ class HTMLCodeBlockElement extends HTMLElement {
         }
         this.#render();
     }
+    set notrim(value) {
+        if (this.#notrim === value) {
+            return;
+        }
+        this.#notrim = value;
+        if (this.#notrim) {
+            this.setAttribute('notrim', '');
+        }
+        else {
+            this.removeAttribute('notrim');
+        }
+        this.#render();
+    }
     static get observedAttributes() {
-        return [
-            'label',
-            'language',
-            'controls',
-        ];
+        return ['label', 'language', 'controls', 'notrim'];
     }
     attributeChangedCallback(attrName, oldValue, newValue) {
         if (oldValue === newValue) {
@@ -243,12 +250,12 @@ class HTMLCodeBlockElement extends HTMLElement {
                 break;
             // boolean
             case 'controls':
+            case 'notrim':
                 this[attrName] = typeof newValue === 'string';
         }
     }
     connectedCallback() {
-        if (this.#rendered === false &&
-            this.#value === '') {
+        if (this.#rendered === false && this.#value === '') {
             this.#value = this.textContent || '';
         }
         this.#rendered = true;
@@ -316,10 +323,13 @@ class HTMLCodeBlockElement extends HTMLElement {
         /* -------------------------------------------------------------------------
          * Hard private props initialize
          * ---------------------------------------------------------------------- */
-        this.#value = (this.textContent || '').replace(/^\n/, '').replace(/\n$/, '');
+        this.#value = (this.textContent || '')
+            .replace(/^\n/, '')
+            .replace(/\n$/, '');
         this.#label = a11yName.textContent || '';
         this.#language = this.getAttribute('language') || '';
         this.#controls = this.getAttribute('controls') !== null;
+        this.#notrim = this.getAttribute('notrim') !== null;
         this.#a11yName = a11yName;
         this.#copyButton = copyButton;
         this.#codeBlock = codeElm;

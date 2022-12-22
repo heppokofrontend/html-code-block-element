@@ -10,17 +10,13 @@
     "outDir": "dist",
     "esModuleInterop": true,
     "useDefineForClassFields": true,
-    "types": [
-      "jest",
-      "node"
-    ],
-    "jsx": "react-jsx"
+    "types": ["jest", "node"],
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

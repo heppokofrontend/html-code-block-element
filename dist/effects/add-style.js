@@ -26,7 +26,6 @@ style.textContent = `
     background: #75758a;
     box-sizing: border-box;
   }
-
   code-block button {
     all: unset;
     outline: revert;

@@ -1,7 +1,7 @@
 {
   "name": "@heppokofrontend/html-code-block-element",
   "description": "Code block custom element with syntax highlighting and copy button.",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "author": "heppokofrontend",
   "bugs": {
     "url": "https://github.com/heppokofrontend/html-code-block-element/issues"
@@ -17,36 +17,40 @@
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.35",
     "@types/react": "^17.0.20",
-    "@types/react-test-renderer": "^17.0.1",
-    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@types/react-test-renderer": "^17.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.28.5",
     "babel-loader": "^8.2.2",
     "eslint": "^7.32.0",
     "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.5.0",
     "gh-pages": "^3.2.3",
     "jest": "^26.6.3",
     "jest-environment-jsdom-global": "^2.0.4",
     "license-webpack-plugin": "^2.3.20",
-    "react": "^17.0.2",
-    "react-test-renderer": "^17.0.2",
+    "prettier": "^2.7.1",
+    "react": "^18.2.0",
+    "react-test-renderer": "^18.2.0",
+    "run-script-os": "^1.1.6",
     "terser-webpack-plugin": "^5.1.4",
     "ts-jest": "^26.5.4",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.3",
+    "tsc-alias": "^1.7.0",
+    "typescript": "^4.7.4",
     "webpack": "^5.27.0",
-    "webpack-cli": "^4.5.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.3"
   },
   "directories": {
     "test": "test"
   },
   "engines": {
-    "node": "^14.16.0"
+    "node": "16"
   },
   "files": [
     "dist",
     "lib",
-    "types"
+    "@types"
   ],
   "homepage": "https://github.com/heppokofrontend/html-code-block-element#readme",
   "keywords": [
@@ -65,17 +69,24 @@
     "url": "git+https://github.com/heppokofrontend/code-block-element.git"
   },
   "scripts": {
-    "prebuild": "rm -rf dist && rm -rf lib",
-    "build": "npm run ts",
-    "postbuild": "npm run bundle",
-    "ts": "tsc",
+    "build": "npm run tsc:build",
     "bundle": "webpack --mode=production",
+    "clean": "run-script-os",
+    "clean:default": "rm -rf dist && rm -rf lib",
+    "clean:win32": "(If exist dist rmdir dist /s /q) && (If exist lib rmdir lib /s /q)",
+    "deploy:demo": "gh-pages -d demo",
+    "jest": "jest --coverage --verbose",
+    "jest:watch": "jest --watch --coverage --verbose",
+    "lint": "eslint \"./src/**/*.ts\"",
+    "lint:fix": "npm run lint -- --fix",
+    "postbuild": "npm run bundle",
+    "prebuild": "npm run clean",
     "prepublishOnly": "npm run build",
     "prestart": "git config commit.template .gitmessage",
+    "prettier": "prettier --write \"./**/*.{json,js,ts}\"",
     "start": "webpack serve --mode=production",
-    "test": "jest --coverage --verbose",
-    "test:watch": "jest --watch --coverage --verbose",
-    "deploy:demo": "gh-pages -d demo",
-    "eslint": "eslint \"./src/**/*.ts\" --fix"
+    "test": "npm run tsc && npm run lint -- --quiet && npm run jest",
+    "tsc": "tsc --noEmit",
+    "tsc:build": "tsc && tsc-alias"
   }
 }
