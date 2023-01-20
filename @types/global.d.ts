@@ -1,6 +1,3 @@
-import * as React from 'react';
-
-export {};
 declare module 'react' {
   // A type for the properties of a function component
   interface CodeBlockHTMLAttributes<T> extends HTMLAttributes<T> {
@@ -25,9 +22,11 @@ export type CodeBlockProps = React.DetailedHTMLProps<
   controls?: boolean;
 };
 
-// A type for JSX markup
-declare module 'JSX' {
-  interface IntrinsicElements {
-    'code-block': CodeBlockProps;
+declare global {
+  // A type for JSX markup
+  namespace JSX {
+    interface IntrinsicElements {
+      'code-block': CodeBlockProps;
+    }
   }
 }
