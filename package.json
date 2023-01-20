@@ -44,9 +44,6 @@
   "directories": {
     "test": "test"
   },
-  "engines": {
-    "node": "16"
-  },
   "files": [
     "dist",
     "lib",
