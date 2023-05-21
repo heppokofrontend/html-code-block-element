@@ -174,23 +174,23 @@ declare global {
 
 type Props = Omit<React.CodeBlockHTMLAttributes<HTMLElement>, 'className'>;
 
+let isLoaded = false;
+
 export const CodeBlock = ({children, ...props}: Props) => {
   useEffect(() => {
     const loadWebComponent = async () => {
-      // import('@heppokofrontend/html-code-block-element');
       const {HTMLCodeBlockElement, createHighlightCallback} = await import(
         '@heppokofrontend/html-code-block-element/dist/manual'
       );
-
-      if (customElements.get('code-block')) {
-        return;
-      }
 
       HTMLCodeBlockElement.highlight = createHighlightCallback(hljs);
       customElements.define('code-block', HTMLCodeBlockElement);
     };
 
-    loadWebComponent();
+    if (!isLoaded) {
+      isLoaded = true;
+      loadWebComponent();
+    }
   }, []);
 
   return (
