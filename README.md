@@ -145,17 +145,62 @@ This package contains the global type files for React.
 
 ```tsx
 // CodeBlock.tsx
-import React, {useEffect, CodeBlockHTMLAttributes} from 'react';
+import {CodeBlockProps} from '@heppokofrontend/html-code-block-element/dist/manual';
+import styleSheet from '@heppokofrontend/html-code-block-element/dist/styleSheet';
+import hljs from 'highlight.js/lib/common';
+import Head from 'next/head';
+import {useEffect} from 'react';
 
-export const CodeBlock: React.FC<CodeBlockHTMLAttributes<HTMLElement>> = ({
-  children,
-  ...props
-}) => {
+declare module 'react' {
+  // A type for the properties of a function component
+  interface CodeBlockHTMLAttributes<T> extends HTMLAttributes<T> {
+    /** The accessible name of code block */
+    label?: string | undefined;
+    /** The Language name */
+    language?: string | undefined;
+    /** The flag to display the UI */
+    controls?: boolean;
+  }
+}
+
+declare global {
+  // A type for JSX markup
+  namespace JSX {
+    interface IntrinsicElements {
+      'code-block': CodeBlockProps;
+    }
+  }
+}
+
+type Props = Omit<React.CodeBlockHTMLAttributes<HTMLElement>, 'className'>;
+
+export const CodeBlock = ({children, ...props}: Props) => {
   useEffect(() => {
-    import(`@heppokofrontend/html-code-block-element`);
-  });
+    const loadWebComponent = async () => {
+      // import('@heppokofrontend/html-code-block-element');
+      const {HTMLCodeBlockElement, createHighlightCallback} = await import(
+        '@heppokofrontend/html-code-block-element/dist/manual'
+      );
 
-  return <code-block {...props}>{children}</code-block>;
+      if (customElements.get('code-block')) {
+        return;
+      }
+
+      HTMLCodeBlockElement.highlight = createHighlightCallback(hljs);
+      customElements.define('code-block', HTMLCodeBlockElement);
+    };
+
+    loadWebComponent();
+  }, []);
+
+  return (
+    <>
+      <Head>
+        <style>{styleSheet}</style>
+      </Head>
+      <code-block {...props}>{children}</code-block>
+    </>
+  );
 };
 ```
 

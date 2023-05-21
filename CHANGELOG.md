@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The test of `value` props
 - The test of `textContent` props
 
+## [2.0.4] - 2023-05-21
+
+- Update supporting for usage on React
+- Add data-id on the style element
+
 ## [2.0.0] - 2022-12-22
 
 - Update node version
